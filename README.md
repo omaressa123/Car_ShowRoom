@@ -1,121 +1,121 @@
-# معرض السيارات - Car Showroom Frontend
+# Car Showroom Frontend
 
-## وصف المشروع
+## Project Description
 
-واجهة أمامية شاملة لمعرض سيارات تعتمد على قاعدة بيانات SQL. تم تصميم الواجهة باستخدام HTML, CSS, و JavaScript مع تأثيرات ثلاثية الأبعاد وتصميم عصري متجاوب.
+A comprehensive frontend for a car showroom based on SQL database. The interface is built using HTML, CSS, and JavaScript with 3D effects and modern responsive design.
 
-## المميزات
+## Features
 
-### 🚗 **إدارة السيارات**
-- عرض جميع السيارات المتاحة مع تفاصيل كاملة
-- فلترة حسب الشركة والسنة والبحث
-- عرض الألوان المتاحة والأسعار
-- معرفة الفروع المتاحة لكل سيارة
+### 🚗 **Car Management**
+- Display all available cars with complete details
+- Filter by company, year, and search functionality
+- Show available colors and prices
+- View available branches for each car
 
-### 🏢 **إدارة الفروع**
-- عرض جميع فروع المعرض
-- تفاصيل العنوان وبيانات الاتصال
-- عرض السيارات المتاحة في كل فرع
+### 🏢 **Branch Management**
+- Display all showroom branches
+- Address and contact information
+- Show available cars at each branch
 
-### 👥 **إدارة الموظفين**
-- عرض فريق العمل
-- معلومات الوظيفة والبيانات الشخصية
-- تنظيم حسب الفروع
+### 👥 **Employee Management**
+- Display team members
+- Job titles and personal information
+- Organized by branches
 
-### 👤 **إدارة العملاء**
-- جدول بجميع العملاء
-- معلومات الاتصال والعناوين
-- سهولة البحث والتصفح
+### 👤 **Customer Management**
+- Table with all customers
+- Contact information and addresses
+- Easy search and browsing
 
-### 📄 **إدارة العقود**
-- عرض جميع العقود المبرمة
-- تفاصيل السيارة والعميل والموظف
-- معلومات الدفع والتواريخ
+### 📄 **Contract Management**
+- Display all executed contracts
+- Car, customer, and employee details
+- Payment information and dates
 
-## التقنيات المستخدمة
+## Technologies Used
 
-- **HTML5** - الهيكل الأساسي للصفحة
-- **CSS3** - التصميم والتنسيق مع تأثيرات 3D
-- **JavaScript (ES6+)** - الوظائف التفاعلية
-- **Font Awesome** - الأيقونات
-- **Responsive Design** - التوافق مع جميع الأجهزة
+- **HTML5** - Basic page structure
+- **CSS3** - Styling and 3D effects
+- **JavaScript (ES6+)** - Interactive functionality
+- **Font Awesome** - Icons
+- **Responsive Design** - All device compatibility
 
-## هيكل قاعدة البيانات
+## Database Structure
 
-تم بناء الواجهة بناءً على المخطط التالي:
+The frontend is built based on the following schema:
 
-### الجداول الرئيسية:
-- **company** - شركات السيارات
-- **model** - موديلات السيارات
-- **year_of_manufacture** - سنوات التصنيع
-- **Car** - السيارات
-- **city** - المدن
-- **Branch** - الفروع
-- **car_branch** - توزيع السيارات على الفروع
-- **Car_Price_History** - أسعار السيارات
-- **color** - الألوان
-- **car_color** - ألوان السيارات
-- **employee** - الموظفين
-- **customer** - العملاء
-- **Contract** - العقود
+### Main Tables:
+- **company** - Car companies
+- **model** - Car models
+- **year_of_manufacture** - Manufacturing years
+- **Car** - Cars
+- **city** - Cities
+- **Branch** - Branches
+- **car_branch** - Car distribution across branches
+- **Car_Price_History** - Car prices
+- **color** - Colors
+- **car_color** - Car colors
+- **employee** - Employees
+- **customer** - Customers
+- **Contract** - Contracts
 
-## المميزات التقنية
+## Technical Features
 
-### 🎨 **التصميم**
-- تصميم عصري وأنيق
-- تدرجات لونية جذابة
-- تأثيرات hover احترافية
-- أيقونات Font Awesome
+### 🎨 **Design**
+- Modern and elegant design
+- Beautiful color gradients
+- Professional hover effects
+- Font Awesome icons
 
-### 🎭 **الرسوم المتحركة**
-- سيارة ثلاثية الأبعاد دوارة في الصفحة الرئيسية
-- تأثيرات حركية سلسة
-- انتقالات احترافية
-- تحميل تدريجي للمحتوى
+### 🎭 **Animations**
+- 3D rotating car on homepage
+- Smooth animations
+- Professional transitions
+- Progressive content loading
 
-### 📱 **التوافق**
-- متجاوب مع جميع أحجام الشاشات
-- قائمة جانبية للأجهزة المحمولة
-- جداول قابلة للتمرير
-- تصميم متكيف
+### 📱 **Compatibility**
+- Responsive for all screen sizes
+- Mobile-friendly sidebar menu
+- Scrollable tables
+- Adaptive design
 
-### 🔍 **البحث والفلترة**
-- بحث فوري في السيارات
-- فلترة متعددة المستويات
-- نتائج فورية
-- واجهة سهلة الاستخدام
+### 🔍 **Search and Filter**
+- Real-time car search
+- Multi-level filtering
+- Instant results
+- User-friendly interface
 
-## كيفية الاستخدام
+## How to Use
 
-1. **فتح الموقع**: افتح ملف `index.html` في المتصفح
-2. **التنقل**: استخدم القائمة العلوية للانتقال بين الأقسام
-3. **البحث**: استخدم شريط البحث والفلاتر للعثور على السيارات
-4. **التفاصيل**: انقر على أي سيارة أو فرع لعرض التفاصيل الكاملة
+1. **Open site**: Open `index.html` in your browser
+2. **Navigation**: Use the top menu to navigate between sections
+3. **Search**: Use the search bar and filters to find cars
+4. **Details**: Click on any car or branch to view full details
 
-## الملفات
+## Files
 
 ```
 car_showRoom/
-├── index.html          # الصفحة الرئيسية
-├── styles.css          # ملف التنسيق
-├── script.js           # ملف الجافاسكريبت
-├── README.md           # ملف التوثيق
-└── car_showroom.sql    # ملف قاعدة البيانات
+├── index.html          # Main page
+├── styles.css          # Styling file
+├── script.js           # JavaScript file
+├── README.md           # Documentation file
+└── car_showroom.sql    # Database file
 ```
 
-## التخصيص
+## Customization
 
-### إضافة بيانات جديدة
-يمكنك تعديل البيانات في ملف `script.js` في قسم `sampleData`:
+### Adding New Data
+You can modify the data in `script.js` in the `sampleData` section:
 
 ```javascript
-// إضافة شركة جديدة
+// Add new company
 sampleData.companies.push({
     company_id: 6,
-    name: 'تسلا'
+    name: 'Tesla'
 });
 
-// إضافة سيارة جديدة
+// Add new car
 sampleData.cars.push({
     car_id: 7,
     company_id: 6,
@@ -124,8 +124,8 @@ sampleData.cars.push({
 });
 ```
 
-### تعديل الألوان
-يمكن تعديل الألوان في ملف `styles.css`:
+### Color Customization
+You can modify colors in `styles.css`:
 
 ```css
 :root {
@@ -135,27 +135,27 @@ sampleData.cars.push({
 }
 ```
 
-## التوافق مع المتصفحات
+## Browser Compatibility
 
-- Chrome (موصى به)
+- Chrome (Recommended)
 - Firefox
 - Safari
 - Edge
 
-## التحديثات المستقبلية
+## Future Updates
 
-- [ ] ربط بقاعدة بيانات حقيقية
-- [ ] إضافة نظام تسجيل دخول
-- [ ] تحسين الأداء
-- [ ] إضافة المزيد من التأثيرات ثلاثية الأبعاد
-- [ ] دعم اللغات المتعددة
+- [ ] Connect to real database
+- [ ] Add login system
+- [ ] Performance improvements
+- [ ] More 3D effects
+- [ ] Multi-language support
 
-## التواصل
+## Contact
 
-لأي استفسارات أو اقتراحات، يرجى التواصل عبر:
-- البريد الإلكتروني: info@carshowroom.com
-- الهاتف: +20 123 456 789
+For any inquiries or suggestions, please contact us:
+- Email: info@carshowroom.com
+- Phone: +20 123 456 789
 
 ---
 
-**ملاحظة**: هذا المشروع هو الواجهة الأمامية فقط. يجب ربطه بواجهة خلفية (Backend) للتعامل مع قاعدة البيانات الحقيقية.
+**Note**: This project is frontend only. It needs to be connected to a backend to handle the real database.
