@@ -3,24 +3,23 @@ package com.carshowroom.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.carshowroom.entity.Car;
 import com.carshowroom.repository.CarRepository;
 
-
-@RestController
-@RequestMapping("/cars")
+@Controller
 public class CarController {
 
     @Autowired
     private CarRepository repo;
 
-    @GetMapping
-    public List <Car> getCars(){
-        return repo.findAll();
-    }
-    
+    @GetMapping("/cars")
+    public String getCars(Model model) {
+        List<Car> cars = repo.findAll();
+        model.addAttribute("cars", cars); 
+        return "cars"; 
+}
 }

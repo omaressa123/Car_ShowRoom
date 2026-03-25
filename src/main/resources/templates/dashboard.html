@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Your Car - CarRental Pro</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar" id="main-nav"></nav>
+
+    <div class="container">
+        <h2>Available Cars</h2>
+        <div id="car-results" class="grid">
+            <!-- Loop through cars from database -->
+            <div class="card car-card" th:each="car : ${cars}">
+                <h3 th:text="${car.name} + ' (' + ${car.year} + ')'">Car Name</h3>
+                <p class="price" th:text="'$' + ${car.pricePerDay} + ' / day'">$0 / day</p>
+                <p th:text="'Location: ' + ${car.branchName}">Location</p>
+                <p style="margin: 1rem 0; font-size: 0.85rem; color: #666;">
+                    Select this car to initiate a rental.
+                </p>
+                <button class="btn btn-primary book-btn" th:attr="data-car-id=${car.id}">Rent This Car</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/rent.js"></script>
+    <script>
+        // Booking Modal trigger
+        document.querySelectorAll('.book-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const carId = btn.getAttribute('data-car-id');
+                alert('Rent car with ID: ' + carId);
+                // هنا ممكن تعمل AJAX request للـ backend لإتمام الحجز
+            });
+        });
+    </script>
+</body>
+</html>

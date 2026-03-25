@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - CarRental Pro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f5f5; }
+        .container { max-width: 600px; margin: 50px auto; background: #fff; padding: 2rem; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
+        h2 { text-align: center; margin-bottom: 1rem; }
+        .form-group { margin-bottom: 1rem; }
+        label { display: block; margin-bottom: 0.3rem; }
+        input, select { width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 5px; }
+        button { width: 100%; padding: 0.7rem; border: none; background: #007BFF; color: #fff; font-size: 1rem; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .alert { padding: 0.7rem; margin-bottom: 1rem; border-radius: 5px; display: none; }
+        .alert-success { background: #d4edda; color: #155724; }
+        .alert-error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Create Your Account</h2>
+
+        <!-- Alerts -->
+        <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+        <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+        <!-- Registration Form -->
+        <form th:action="@{/register}" th:object="${account}" method="post">
+
+            <!-- Customer Details -->
+            <div class="form-group">
+                <label>SSN</label>
+                <input type="text" th:field="*{customer.SSN}" placeholder="SSN" required/>
+            </div>
+            <div class="form-group">
+                <label>First Name</label>
+                <input type="text" th:field="*{customer.fname}" placeholder="First Name" required/>
+            </div>
+            <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" th:field="*{customer.lname}" placeholder="Last Name" required/>
+            </div>
+            <div class="form-group">
+                <label>Phone 1</label>
+                <input type="text" th:field="*{customer.phone_1}" placeholder="Phone 1" required/>
+            </div>
+            <div class="form-group">
+                <label>Phone 2</label>
+                <input type="text" th:field="*{customer.phone_2}" placeholder="Phone 2" required/>
+            </div>
+            <div class="form-group">
+                <label>City</label>
+                <select th:field="*{customer.city_id}">
+                    <option th:each="c : ${cities}"
+                            th:value="${c.city_id}"
+                            th:text="${c.city_name}">
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Street</label>
+                <input type="text" th:field="*{customer.street}" placeholder="Street" required/>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="text" th:field="*{customer.email}" placeholder="email" required/>
+            </div>
+            <div class="form-group">
+                <label>Building</label>
+                <input type="text" th:field="*{customer.building_number}" placeholder="Building" required/>
+            </div>
+            <div class="form-group">
+                <label>Birth Date</label>
+                <input type="date" th:field="*{customer.birthdate}" required/>
+            </div>
+            <div class="form-group">
+                <label>Gender</label>
+                <select th:field="*{customer.gender_id}">
+                    <option th:each="g : ${genders}"
+                            th:value="${g.gender_id}"
+                            th:text="${g.gender}">
+                    </option>
+                </select>
+            </div>
+
+            <hr/>
+
+            <!-- Account Details -->
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" th:field="*{username}" placeholder="Username" required/>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" th:field="*{password_hash}" placeholder="Password" required/>
+            </div>
+
+            <button type="submit">Register</button>
+        </form>
+
+        <p style="text-align:center; margin-top:1rem;">
+            Already have an account? <a th:href="@{/login}">Login here</a>
+        </p>
+    </div>
+</body>
+</html>
