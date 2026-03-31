@@ -12,7 +12,8 @@ public class User {
     private String username;
     private String password;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
     private Role role;
 
     @OneToOne(mappedBy = "user")
@@ -49,7 +50,7 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", role=" + role +
+                ", role=" + (role != null ? role.getName() : null) +
                 '}';
     }
 }

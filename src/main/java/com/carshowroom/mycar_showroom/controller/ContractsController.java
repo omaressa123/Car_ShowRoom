@@ -1,6 +1,7 @@
 package com.carshowroom.mycar_showroom.controller;
 
 import com.carshowroom.mycar_showroom.service.ContractService;
+import com.carshowroom.mycar_showroom.service.ContractRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +23,4 @@ public class ContractsController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-}
-
-class ContractRequest {
-    String customerSsn, carId, branchId, paymentMethod;
-    // getters/setters stub
 }

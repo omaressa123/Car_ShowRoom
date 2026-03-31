@@ -1,6 +1,5 @@
 package com.carshowroom.mycar_showroom.service;
 
-// Stub service - extend with @Service, repositories
 import com.carshowroom.mycar_showroom.entity.Customer;
 import com.carshowroom.mycar_showroom.entity.User;
 import com.carshowroom.mycar_showroom.entity.Role;
@@ -23,17 +22,33 @@ public class AuthService {
     @Autowired
     private RoleRepository roleRepository;
 
-    public void saveCustomer(Customer customer) {
-        customerRepository.save(customer);
+    public Customer saveCustomer(Customer customer) {
+        return customerRepository.save(customer);
     }
 
-    public void saveUser(User user) {
-        userRepository.save(user);
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
+
+    public Role saveRole(Role role) {
+        return roleRepository.save(role);
     }
 
     public Role getRoleByName(String name) {
         Optional<Role> role = roleRepository.findByName(name);
         return role.orElse(null);
+    }
+
+    public boolean userExists(String username) {
+        return userRepository.findByUsername(username).isPresent();
+    }
+
+    public Optional<User> getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    public Optional<Customer> getCustomerById(Long id) {
+        return customerRepository.findById(id);
     }
 
     // Add more methods for business logic

@@ -21,11 +21,14 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CustomUserDetailsService userDetailsService;
 
-
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, CustomUserDetailsService userDetailsService) {
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.userDetailsService = userDetailsService;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-http.csrf().disable()
+        http.csrf().disable()
             .cors().and()
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**", "/", "/index.html", "/css/**", "/js/**", "/assets/**").permitAll()

@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 # Car Showroom & Rental Management System
 
 A comprehensive web-based application for managing car showrooms, inventory, and rental services. Built with a Spring Boot backend and a modern HTML/CSS/JS frontend.
@@ -33,7 +31,7 @@ A comprehensive web-based application for managing car showrooms, inventory, and
 
 - **Backend:** [Java](https://www.java.com/) with [Spring Boot](https://spring.io/projects/spring-boot)
 - **Frontend:** HTML5, CSS3, JavaScript
-- **Database:** SQL (Schema included in `schema_creation.sql`)
+- **Database:** MySQL (Schema included in `schema_creation.sql`)
 - **Build Tool:** Maven
 
 ## 📂 Project Structure
@@ -46,7 +44,8 @@ A comprehensive web-based application for managing car showrooms, inventory, and
 ## ⚙️ Setup & Installation
 
 1. **Database Setup:**
-   - Execute the `schema_creation.sql` script in your SQL environment to create the necessary tables and relationships.
+   - Execute the `schema_creation.sql` script in your MySQL environment to create the necessary tables and relationships.
+   - Execute `setup_database.sql` for initial data setup.
 2. **Backend Configuration:**
    - Update `src/main/resources/application.properties` with your database credentials.
    - Run the application using Maven: `./mvnw spring-boot:run`
@@ -55,148 +54,7 @@ A comprehensive web-based application for managing car showrooms, inventory, and
 
 ## 📄 License
 
-# This project is open-source and available for educational purposes.
-
-# Car Showroom Frontend
-
-## Project Description
-
-A comprehensive frontend for a car showroom based on SQL database. The interface is built using HTML, CSS, and JavaScript with 3D effects and modern responsive design.
-
-## Features
-
-### 🚗 **Car Management**
-
-- Display all available cars with complete details
-- Filter by company, year, and search functionality
-- Show available colors and prices
-- View available branches for each car
-
-### 🏢 **Branch Management**
-
-- Display all showroom branches
-- Address and contact information
-- Show available cars at each branch
-
-### 👥 **Employee Management**
-
-- Display team members
-- Job titles and personal information
-- Organized by branches
-
-### 👤 **Customer Management**
-
-- Table with all customers
-- Contact information and addresses
-- Easy search and browsing
-
-### 📄 **Contract Management**
-
-- Display all executed contracts
-- Car, customer, and employee details
-- Payment information and dates
-
-## Technologies Used
-
-- **HTML5** - Basic page structure
-- **CSS3** - Styling and 3D effects
-- **JavaScript (ES6+)** - Interactive functionality
-- **Font Awesome** - Icons
-- **Responsive Design** - All device compatibility
-
-## Database Structure
-
-The frontend is built based on the following schema:
-
-### Main Tables:
-
-- **company** - Car companies
-- **model** - Car models
-- **year\_of\_manufacture** - Manufacturing years
-- **Car** - Cars
-- **city** - Cities
-- **Branch** - Branches
-- **car\_branch** - Car distribution across branches
-- **Car\_Price\_History** - Car prices
-- **color** - Colors
-- **car\_color** - Car colors
-- **employee** - Employees
-- **customer** - Customers
-- **Contract** - Contracts
-
-## Technical Features
-
-### 🎨 **Design**
-
-- Modern and elegant design
-- Beautiful color gradients
-- Professional hover effects
-- Font Awesome icons
-
-### 🎭 **Animations**
-
-- 3D rotating car on homepage
-- Smooth animations
-- Professional transitions
-- Progressive content loading
-
-### 📱 **Compatibility**
-
-- Responsive for all screen sizes
-- Mobile-friendly sidebar menu
-- Scrollable tables
-- Adaptive design
-
-### 🔍 **Search and Filter**
-
-- Real-time car search
-- Multi-level filtering
-- Instant results
-- User-friendly interface
-
-## How to Use
-
-1. **Open site**: Open `index.html` in your browser
-2. **Navigation**: Use the top menu to navigate between sections
-3. **Search**: Use the search bar and filters to find cars
-4. **Details**: Click on any car or branch to view full details
-
-## Files
-
-```
-car_showRoom/
-├── index.html          # Main page
-├── styles.css          # Styling file
-├── script.js           # JavaScript file
-├── README.md           # Documentation file
-└── car_showroom.sql    # Database file
-```
-
-## Customization
-
-### Adding New Data
-
-You can modify the data in `script.js` in the `sampleData` section:
-
-```javascript
-// Add new company
-sampleData.companies.push({
-    company_id: 6,
-    name: 'Tesla'
-});
-
-// Add new car
-sampleData.cars.push({
-    car_id: 7,
-    company_id: 6,
-    model_id: 11,
-    year_id: 1
-});
-```
-
-### Color Customization
-
-You can modify colors in `styles.css`:
+This project is open-source and available for educational purposes.
 
 ```css
 :root {

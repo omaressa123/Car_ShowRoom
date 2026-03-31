@@ -8,6 +8,10 @@ import java.util.List;
 
 @Repository
 public interface CarRepository extends JpaRepository<Car, Long> {
-    @Query("SELECT c FROM Car c WHERE c.available = true") // Stub for available cars
-    List<Car> findAvailableCars(String company, String model, String color, String branch);
+    @Query("SELECT c FROM Car c WHERE c.status = 'AVAILABLE'")
+    List<Car> findAvailableCars();
+    
+    List<Car> findByBrand(String brand);
+    
+    List<Car> findByModel(String model);
 }
