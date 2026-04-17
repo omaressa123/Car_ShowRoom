@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long role_id;
 
     private String name; // ADMIN, CUSTOMER
 
@@ -17,14 +17,14 @@ public class Role {
         this.name = name;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() { return role_id; }
+    public void setId(Long id) { this.role_id = id; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
     @Override
     public String toString() {
-        return "Role{" + "id=" + id + ", name='" + name + '\'' + '}';
+        return "Role{" + "id=" + role_id + ", name='" + name + '\'' + '}';
     }
 }
