@@ -41,6 +41,12 @@ function updateNavbar() {
     }
 }
 
+function logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('car_rental_user');
+    window.location.href = '/login';
+}
+
 /**
  * Alert Helper
  */

@@ -44,7 +44,7 @@ public class SecurityConfig {
                 return config;
             }))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**", "/", "/index.html", "/login**", "/register**", "/css/**", "/js/**", "/assets/**").permitAll()
+                .requestMatchers("/api/auth/**", "/", "/index.html", "/login**", "/register**", "/cars**", "/rent**", "/search**", "/dashboard**", "/css/**", "/js/**", "/assets/**").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
