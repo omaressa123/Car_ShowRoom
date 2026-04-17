@@ -3,14 +3,12 @@ package com.carshowroom.mycar_showroom.service;
 import com.carshowroom.mycar_showroom.entity.Contract;
 import com.carshowroom.mycar_showroom.entity.Car;
 import com.carshowroom.mycar_showroom.entity.Customer;
-import com.carshowroom.mycar_showroom.entity.Employee;
 import com.carshowroom.mycar_showroom.entity.CarStatus;
 import com.carshowroom.mycar_showroom.entity.ContractStatus;
 import com.carshowroom.mycar_showroom.entity.Payment;
 import com.carshowroom.mycar_showroom.repository.ContractRepository;
 import com.carshowroom.mycar_showroom.repository.CarRepository;
 import com.carshowroom.mycar_showroom.repository.CustomerRepository;
-import com.carshowroom.mycar_showroom.repository.EmployeeRepository;
 import com.carshowroom.mycar_showroom.repository.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,9 +29,6 @@ public class ContractService {
 
     @Autowired
     private CustomerRepository customerRepository;
-
-    @Autowired
-    private EmployeeRepository employeeRepository;
 
     @Autowired
     private PaymentRepository paymentRepository;
@@ -61,15 +56,6 @@ public class ContractService {
             throw new Exception("Customer not found");
         }
 
-        // Get employee if provided
-        Employee employee = null;
-        if (request.getEmployeeId() != null) {
-            Optional<Employee> empOpt = employeeRepository.findById(request.getEmployeeId());
-            if (empOpt.isPresent()) {
-                employee = empOpt.get();
-            }
-        }
-
         // Calculate rental cost
         long days = ChronoUnit.DAYS.between(request.getStartTime(), request.getEndTime());
         if (days <= 0) {
@@ -81,7 +67,6 @@ public class ContractService {
         Contract contract = new Contract();
         contract.setCustomer(customerOpt.get());
         contract.setCar(car);
-        contract.setEmployee(employee);
         contract.setStartTime(request.getStartTime());
         contract.setEndTime(request.getEndTime());
         contract.setTotalPrice(totalPrice);

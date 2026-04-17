@@ -71,22 +71,12 @@
     2. System validates the city exists in the `city` table.
     3. System creates the branch.
 
-### **UC-06: Employee Onboarding & Salary Management**
-- **Actor(s):** Admin
-- **Description:** Managing employee records, job assignments, and salary history.
-- **Preconditions:** Admin is logged in.
-- **Postconditions:** `employee` and `salary_history` tables are updated.
-- **Main Flow:**
-    1. Admin enters employee personal data and assigns a `job_id` and `branch_id`.
-    2. Admin sets the supervisor (linking to another `employee` SSN).
-    3. Admin enters initial salary and commission percentage.
-    4. System saves the record and logs the initial salary in history.
 
 ---
 
 ## **4. Car Search & Renting Process**
 
-### **UC-07: Search & Filter Cars**
+### **UC-06: Search & Filter Cars**
 - **Actor(s):** Customer, Employee
 - **Description:** Finding available cars based on company, model, color, or location.
 - **Preconditions:** None (for public search) or User logged in.
@@ -97,7 +87,7 @@
 - **Alternative Flows:**
     - **No Results:** System suggests broader criteria or different branches.
 
-### **UC-08: Create Rental Contract (Booking)**
+### **UC-07: Create Rental Contract (Booking)**
 - **Actor(s):** Customer (Initiates), Employee (Finalizes)
 - **Description:** The core process of renting a car and generating a legal contract.
 - **Preconditions:** Customer is registered; Car is available in the selected branch.
@@ -123,10 +113,9 @@
 | UC-03 | Manage Car Inventory | Admin | Car Management |
 | UC-04 | Update Car Pricing | Admin | Car Management |
 | UC-05 | Manage Branches | Admin | Branch Management |
-| UC-06 | Employee Onboarding | Admin | Employee Management |
-| UC-07 | Search & Filter Cars | Customer/Employee | Search |
-| UC-08 | Create Rental Contract | Customer/Employee | Renting Process |
-| UC-09 | Manage User Roles | Admin | Account Management |
+| UC-06 | Search & Filter Cars | Customer/Employee | Search |
+| UC-07 | Create Rental Contract | Customer/Employee | Renting Process |
+| UC-08 | Manage User Roles | Admin | Account Management |
 
 ---
 

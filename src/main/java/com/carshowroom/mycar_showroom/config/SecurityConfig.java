@@ -33,8 +33,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**", "/", "/index.html", "/css/**", "/js/**", "/assets/**").permitAll()
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                .requestMatchers("/api/employee/**").hasAnyRole("ADMIN", "EMPLOYEE")
-                .requestMatchers("/api/customer/**").hasAnyRole("ADMIN", "EMPLOYEE", "CUSTOMER")
+                .requestMatchers("/api/customer/**").hasAnyRole("ADMIN", "CUSTOMER")
                 .anyRequest().authenticated()
             )
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

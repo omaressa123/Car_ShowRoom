@@ -19,10 +19,6 @@ public class Contract {
     @JoinColumn(name = "car_id")
     private Car car;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
-
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private BigDecimal totalPrice;
@@ -42,9 +38,6 @@ public class Contract {
 
     public Car getCar() { return car; }
     public void setCar(Car car) { this.car = car; }
-
-    public Employee getEmployee() { return employee; }
-    public void setEmployee(Employee employee) { this.employee = employee; }
 
     public LocalDateTime getStartTime() { return startTime; }
     public void setStartTime(LocalDateTime startTime) { this.startTime = startTime; }

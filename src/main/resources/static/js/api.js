@@ -26,12 +26,6 @@ function updateNavbar() {
                 <li><a href="/cars">Search Cars</a></li>
                 <li><a href="/cars">My Rentals</a></li>
             `;
-        } else if (role === 'Employee') {
-            navLinks = `
-                <li><a href="/dashboard">Dashboard</a></li>
-                <li><a href="/cars">Search Cars</a></li>
-                <li><a href="/cars">Contracts</a></li>
-            `;
         }
         navLinks += `<li><a href="#" id="logout-btn">Logout (${user.username})</a></li>`;
     } else {

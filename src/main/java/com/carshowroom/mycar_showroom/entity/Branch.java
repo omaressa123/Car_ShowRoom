@@ -18,9 +18,6 @@ public class Branch {
     @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Car> cars = new ArrayList<>();
 
-    @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Employee> employees = new ArrayList<>();
-
     // Constructors
     public Branch() {}
 
@@ -45,9 +42,6 @@ public class Branch {
 
     public List<Car> getCars() { return cars; }
     public void setCars(List<Car> cars) { this.cars = cars; }
-
-    public List<Employee> getEmployees() { return employees; }
-    public void setEmployees(List<Employee> employees) { this.employees = employees; }
 
     @Override
     public String toString() {

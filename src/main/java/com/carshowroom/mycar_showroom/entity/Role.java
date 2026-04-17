@@ -9,7 +9,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name; // ADMIN, EMPLOYEE, CUSTOMER
+    private String name; // ADMIN, CUSTOMER
 
     public Role() {}
 
