@@ -16,8 +16,9 @@ function updateNavbar() {
         navLinks = `
             <li><a href="/cars">Search Cars</a></li>
             <li><a href="/rent">Rentals</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
         `;
-        navLinks += `<li><a href="#" id="logout-btn">Logout (${user.username || user.name})</a></li>`;
+        navLinks += `<li><a href="#" id="logout-btn">Logout (${user.username})</a></li>`;
     } else {
         navLinks = `
             <li><a href="/login">Login</a></li>
@@ -41,11 +42,6 @@ function updateNavbar() {
     }
 }
 
-function logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('car_rental_user');
-    window.location.href = '/login';
-}
 
 /**
  * Alert Helper

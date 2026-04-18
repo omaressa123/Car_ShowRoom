@@ -3,19 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rent a Car - CarRental Pro</title>
+    <title>Rent a Car - Carshoowroom</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <nav class="navbar" id="main-nav"></nav>
 
     <div class="container">
-        <!-- USE CASE NAME: UC-08 Create Rental Contract -->
         <div class="card" style="max-width: 600px; margin: 2rem auto;">
             <h2>Finalize Your Rental Contract</h2>
-            <p style="font-size: 0.9rem; color: #777; margin-bottom: 2rem;">
-                This UI implements <strong>UC-08: Create Rental Contract</strong>.
-            </p>
+            
             
             <div id="alert-success" class="alert alert-success"></div>
             <div id="alert-error" class="alert alert-error"></div>
@@ -53,9 +50,9 @@
         document.getElementById('rent-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const contractData = {
-                carId: document.getElementById('car-id').value,
-                methodId: document.getElementById('payment-method').value,
-                duration: document.getElementById('rental-days').value
+                carId: parseInt(document.getElementById('car-id').value),
+                paymentMethod: document.getElementById('payment-method').options[document.getElementById('payment-method').selectedIndex].text,
+                rentalDays: parseInt(document.getElementById('rental-days').value)
             };
             createRentalContract(contractData);
         });

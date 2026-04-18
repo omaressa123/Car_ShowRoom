@@ -14,7 +14,7 @@
         <div class="card" style="max-width: 400px; margin: 4rem auto;">
             <h2 style="text-align: center; margin-bottom: 2rem;">Welcome Back</h2>
             <p style="text-align: center; font-size: 0.9rem; color: #777; margin-bottom: 2rem;">
-                This UI maps to <strong> User Login</strong>.
+                This UI maps to <strong> User Login</strong>, authenticating users based on roles stored in the database.
             </p>
             
             <div id="alert-error" class="alert alert-error"></div>
@@ -39,16 +39,12 @@
     <script src="/js/api.js"></script>
     <script src="/js/auth.js"></script>
     <script>
-        document.getElementById('login-form').addEventListener('submit', (e) => {
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             
-            // In a real app, this calls login({ username, password }) from auth.js
-            console.log('Logging in with:', { username, password });
-            
-            localStorage.setItem('car_rental_user', JSON.stringify({ username: username }));
-            window.location.href = '/cars';
+            await login({ username, password });
         });
     </script>
 </body>

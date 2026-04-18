@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - CarRental Pro</title>
+    <title>Register - Carshoowroom</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -13,7 +13,7 @@
         <div class="card" style="max-width: 600px; margin: 2rem auto;">
             <h2 style="text-align: center; margin-bottom: 2rem;">Create Your Account</h2>
             <p style="text-align: center; font-size: 0.9rem; color: #777; margin-bottom: 2rem;">
-                This UI maps to <strong>UC-01: User Registration</strong>, capturing personal and account details.
+                This UI maps to <strong> User Registration</strong>, capturing personal and account details.
             </p>
             
             <div id="alert-success" class="alert alert-success"></div>
@@ -78,28 +78,17 @@
     <script>
         document.getElementById('register-form').addEventListener('submit', async (e) => {
             e.preventDefault();
+            const fullName = document.getElementById('fname').value + ' ' + document.getElementById('lname').value;
             const formData = {
-                ssn: document.getElementById('ssn').value,
-                fname: document.getElementById('fname').value,
-                lname: document.getElementById('lname').value,
+                fullName: fullName,
                 phone: document.getElementById('phone').value,
-                birthdate: document.getElementById('birthdate').value,
-                genderId: document.getElementById('gender').value,
                 email: document.getElementById('email').value,
                 username: document.getElementById('username').value,
                 password: document.getElementById('password').value
             };
             
             console.log('Initiating UC-01 User Registration...', formData);
-            
-            // In a real app, this calls register(formData) from auth.js
-            const successAlert = document.getElementById('alert-success');
-            successAlert.innerText = 'Registration successful! (UC-01 Flow Complete). Redirecting to login...';
-            successAlert.style.display = 'block';
-            
-            setTimeout(() => {
-                window.location.href = '/login';
-            }, 2500);
+            await register(formData);
         });
     </script>
 </body>

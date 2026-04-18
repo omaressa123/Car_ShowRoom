@@ -1,11 +1,16 @@
 package com.carshowroom.mycar_showroom.service;
 
-import com.carshowroom.mycar_showroom.entity.Car;
+import com.carshowroom.mycar_showroom.dto.CarDTO;
 import com.carshowroom.mycar_showroom.entity.Branch;
-import com.carshowroom.mycar_showroom.repository.CarRepository;
+import com.carshowroom.mycar_showroom.entity.Car;
+import com.carshowroom.mycar_showroom.entity.CarStatus;
 import com.carshowroom.mycar_showroom.repository.BranchRepository;
+import com.carshowroom.mycar_showroom.repository.CarRepository;
+import com.carshowroom.mycar_showroom.service.AuditService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -20,11 +25,12 @@ public class CarService {
     @Autowired
     private BranchRepository branchRepository;
 
+    @Autowired
+    private AuditService auditService;
+
     public List<Map<String, Object>> searchCars(String company, String model, String color, String branch) {
-        // Get all available cars first
         List<Car> cars = carRepository.findAvailableCars();
         
-        // Apply filters
         List<Car> filtered = cars.stream().filter(car -> {
             boolean matches = true;
             if (company != null && !car.getBrand().equalsIgnoreCase(company)) {
@@ -39,7 +45,6 @@ public class CarService {
             return matches;
         }).collect(Collectors.toList());
         
-        // Convert to DTOs
         return filtered.stream().map(car -> {
             Map<String, Object> dto = new HashMap<>();
             dto.put("id", car.getId());
@@ -62,12 +67,41 @@ public class CarService {
         return carRepository.findById(id).orElse(null);
     }
 
+    @Transactional
+    public void addCar(CarDTO dto) {
+        Branch branch = branchRepository.findById(dto.getBranchId()).orElseThrow(() -> new IllegalArgumentException("Branch not found"));
+        Car car = new Car();
+        car.setPlateNumber(dto.getPlateNumber());
+        car.setBrand(dto.getBrand());
+        car.setModel(dto.getModel());
+        car.setYear(dto.getYear());
+        car.setPricePerDay(dto.getPricePerDay());
+        car.setBranch(branch);
+        car.setStatus(CarStatus.AVAILABLE);
+        carRepository.save(car);
+        auditService.log("CREATE_CAR", "Car created: " + dto.getBrand() + " " + dto.getModel());
+    }
+
+    @Transactional
+    public void updateCarPrice(Long id, BigDecimal newPrice) {
+        Car car = carRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Car not found"));
+        car.setPricePerDay(newPrice);
+        carRepository.save(car);
+        auditService.log("UPDATE_PRICE", "Car ID " + id + " price updated to " + newPrice);
+    }
+
+    @Transactional
+    public void deleteCar(Long id) {
+        Car car = carRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Car not found"));
+        carRepository.delete(car);
+        auditService.log("DELETE_CAR", "Car ID " + id + " deleted");
+    }
+
     public void updateCarStatus(Long carId, String status) {
         Car car = carRepository.findById(carId).orElse(null);
         if (car != null) {
-            // Parse status string to enum
             try {
-                car.setStatus(com.carshowroom.mycar_showroom.entity.CarStatus.valueOf(status));
+                car.setStatus(CarStatus.valueOf(status));
                 carRepository.save(car);
             } catch (IllegalArgumentException e) {
                 throw new IllegalArgumentException("Invalid car status: " + status);
@@ -75,3 +109,4 @@ public class CarService {
         }
     }
 }
+

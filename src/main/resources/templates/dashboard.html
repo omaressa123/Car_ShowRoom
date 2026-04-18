@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - CarRental Pro</title>
     <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/toast.js"></script>
 </head>
 <body>
     <nav class="navbar" id="main-nav"></nav>
@@ -20,11 +21,12 @@
         </aside>
 
         <main class="main-content">
-            <!-- USE CASE NAME: UC-03 Manage Car Inventory -->
+            <div id="dashboard-stats"></div>
+            
             <section id="inventory" class="card">
                 <h2>Manage Car Inventory</h2>
                 <p style="font-size: 0.9rem; color: #777; margin-bottom: 2rem;">
-                    This UI implements <strong>UC-03: Manage Car Inventory</strong>, allowing the Admin to add new cars and assign them to branches.
+                    This UI implements <strong>: Manage Car Inventory</strong>, allowing the Admin to add new cars and assign them to branches.
                 </p>
                 <form id="inventory-form" class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
                     <div class="form-group">
@@ -59,7 +61,7 @@
             <section id="pricing" class="card">
                 <h2>Update Car Pricing</h2>
                 <p style="font-size: 0.9rem; color: #777; margin-bottom: 2rem;">
-                    This UI implements <strong>UC-04: Update Car Pricing</strong>, adding a new record to the <code>Car_Price_History</code> table.
+                    This UI implements <strong> Update Car Pricing</strong>, adding a new record to the <code>Car_Price_History</code> table.
                 </p>
                 <form id="pricing-form" class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
                     <div class="form-group">
@@ -85,13 +87,14 @@
 
             <!-- Branches section placeholder for UC-05 -->
             <section id="branches" class="card">
-                <h2>Manage Branches (UC-05)</h2>
+                <h2>Manage Branches </h2>
                 <p>Branch management features to be implemented.</p>
             </section>
         </main>
     </div>
 
-    <script src="/js/api.js"></script>
+<script src="/js/api.js"></script>
     <script src="/js/auth.js"></script>
+    <script src="/js/dashboard.js"></script>
 </body>
 </html>

@@ -14,7 +14,7 @@
         <div class="card" style="margin-bottom: 3rem;">
             <h2>Find Your Perfect Car</h2>
             <p style="font-size: 0.9rem; color: #777; margin-bottom: 2rem;">
-                This UI implements <strong>UC-07: Search & Filter Cars</strong>, querying car and branch availability from the backend.
+                This UI implements <strong>: Search & Filter Cars</strong>, querying car and branch availability from the backend.
             </p>
             
             <form id="search-form" class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
@@ -102,7 +102,21 @@
         </div>
     </div>
 
-    <script src="/js/api.js"></script>
+<script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/search.js"></script>
     <script src="/js/rent.js"></script>
+    <script>
+        // Wire search form
+        document.getElementById('search-form')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const filters = {
+                company: document.getElementById('filter-company').value,
+                model: document.getElementById('filter-model').value,
+                branch: document.getElementById('filter-branch').value
+            };
+            searchCars(filters);
+        });
+    </script>
 </body>
 </html>

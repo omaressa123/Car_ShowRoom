@@ -1,7 +1,9 @@
 package com.carshowroom.mycar_showroom.controller;
 
+import com.carshowroom.mycar_showroom.dto.ContractDTO;
+import com.carshowroom.mycar_showroom.dto.ResponseWrapper;
 import com.carshowroom.mycar_showroom.service.ContractService;
-import com.carshowroom.mycar_showroom.service.ContractRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +17,14 @@ public class ContractsController {
     private ContractService contractService;
 
     @PostMapping("/contracts")
-    public ResponseEntity<?> createContract(@RequestBody ContractRequest request) {
+    public ResponseEntity<ResponseWrapper<Void>> createContract(@Valid @RequestBody ContractDTO request) {
         try {
             contractService.createRentalContract(request);
-            return ResponseEntity.ok("Contract created successfully");
+            return ResponseEntity.ok(ResponseWrapper.success("Contract created successfully"));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.ok(ResponseWrapper.error(e.getMessage()));
         }
     }
 }
+
+

@@ -1,20 +1,37 @@
 /**
+ * Get Authentication Headers
+ */
+function getAuthHeaders() {
+    const token = localStorage.getItem('car_rental_token');
+    const headers = {
+        'Content-Type': 'application/json'
+    };
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
+    return headers;
+}
+
+/**
  * Handle Login (UC-02)
  */
 async function login(credentials) {
     try {
-        const response = await fetch(`${API_BASE_URL}/login`, {
+        const response = await fetch(`${API_BASE_URL}/auth/login`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: getAuthHeaders(),
             body: JSON.stringify(credentials)
         });
 
-        if (!response.ok) throw new Error('Invalid credentials');
-
         const data = await response.json();
-        localStorage.setItem('car_rental_user', JSON.stringify(data.user));
-        localStorage.setItem('car_rental_token', data.token);
-window.location.href = '/cars';
+        if (data.success) {
+            localStorage.setItem('car_rental_user', JSON.stringify({ username: data.data.username }));
+            localStorage.setItem('car_rental_token', data.data.token);
+            // Redirect based on role if needed, or just to dashboard
+            window.location.href = data.data.username === 'admin' ? '/dashboard' : '/cars';
+        } else {
+            throw new Error(data.message || 'Login failed');
+        }
     } catch (error) {
         showAlert('alert-error', error.message);
     }
@@ -25,16 +42,21 @@ window.location.href = '/cars';
  */
 async function register(userData) {
     try {
-        const response = await fetch(`${API_BASE_URL}/register`, {
+        const response = await fetch(`${API_BASE_URL}/auth/register`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: getAuthHeaders(),
             body: JSON.stringify(userData)
         });
 
-        if (!response.ok) throw new Error('Registration failed. Username or SSN may already exist.');
+        if (!response.ok) throw new Error('Registration failed. Username may already exist.');
 
-        showAlert('alert-success', 'Registration successful! Redirecting to login...');
-        setTimeout(() => { window.location.href = '/login'; }, 2000);
+        const data = await response.json();
+        if (data.success) {
+            showAlert('alert-success', 'Registration successful! Redirecting to login...');
+            setTimeout(() => { window.location.href = '/login'; }, 2000);
+        } else {
+            throw new Error(data.message || 'Registration failed');
+        }
     } catch (error) {
         showAlert('alert-error', error.message);
     }

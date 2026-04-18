@@ -5,15 +5,22 @@ async function createRentalContract(contractData) {
     try {
         const response = await fetch(`${API_BASE_URL}/contracts`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: getAuthHeaders(),
             body: JSON.stringify(contractData)
         });
 
-        if (!response.ok) throw new Error('Contract creation failed. Car may be out of stock.');
-
-        showAlert('alert-success', 'Contract successfully created! (UC-08 Flow Complete)');
-        const modal = document.getElementById('booking-modal');
-        if (modal) modal.style.display = 'none';
+        const data = await response.json();
+        if (data.success) {
+            showAlert('alert-success', 'Contract successfully created!');
+            const modal = document.getElementById('booking-modal');
+            if (modal) modal.style.display = 'none';
+            // Refresh car list to reflect availability change
+            if (typeof searchCars === 'function') {
+                searchCars({});
+            }
+        } else {
+            throw new Error(data.message || 'Contract creation failed');
+        }
     } catch (error) {
         showAlert('alert-error', error.message);
     }

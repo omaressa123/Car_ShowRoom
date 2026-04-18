@@ -1,5 +1,6 @@
 package com.carshowroom.mycar_showroom.controller;
 
+import com.carshowroom.mycar_showroom.dto.ResponseWrapper;
 import com.carshowroom.mycar_showroom.entity.User;
 import com.carshowroom.mycar_showroom.entity.Customer;
 import com.carshowroom.mycar_showroom.security.JwtUtil;
@@ -30,24 +31,25 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+@PostMapping("/login")
+    public ResponseEntity<ResponseWrapper<LoginResponse>> login(@RequestBody LoginRequest request) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
             );
             String token = jwtUtil.generateToken(authentication);
-            return ResponseEntity.ok(new LoginResponse(token, request.getUsername()));
+            LoginResponse response = new LoginResponse(token, request.getUsername());
+            return ResponseEntity.ok(ResponseWrapper.success("Login successful", response));
         } catch (AuthenticationException e) {
-            return ResponseEntity.status(401).body("Invalid credentials");
+            return ResponseEntity.ok(ResponseWrapper.error("Invalid credentials"));
         }
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+@PostMapping("/register")
+    public ResponseEntity<ResponseWrapper<Void>> register(@RequestBody RegisterRequest request) {
         try {
             if (authService.userExists(request.getUsername())) {
-                return ResponseEntity.badRequest().body("Username already exists");
+                return ResponseEntity.ok(ResponseWrapper.error("Username already exists"));
             }
 
             Customer customer = new Customer();
@@ -61,10 +63,14 @@ public class AuthController {
             user.setPassword(passwordEncoder.encode(request.getPassword()));
             user.setCustomer(customer);
             user = authService.saveUser(user);
+            
+            // Set the reverse relationship
+            customer.setUser(user);
+            authService.saveCustomer(customer);
 
-            return ResponseEntity.ok("Registration successful");
+            return ResponseEntity.ok(ResponseWrapper.success("Registration successful"));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Registration failed: " + e.getMessage());
+            return ResponseEntity.ok(ResponseWrapper.error("Registration failed: " + e.getMessage()));
         }
     }
 
