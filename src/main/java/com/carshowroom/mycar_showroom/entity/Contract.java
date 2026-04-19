@@ -19,8 +19,7 @@ public class Contract {
     @JoinColumn(name = "car_id")
     private Car car;
 
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private String paymentMethod;
     private BigDecimal totalPrice;
 
     @Enumerated(EnumType.STRING)
@@ -39,11 +38,8 @@ public class Contract {
     public Car getCar() { return car; }
     public void setCar(Car car) { this.car = car; }
 
-    public LocalDateTime getStartTime() { return startTime; }
-    public void setStartTime(LocalDateTime startTime) { this.startTime = startTime; }
-
-    public LocalDateTime getEndTime() { return endTime; }
-    public void setEndTime(LocalDateTime endTime) { this.endTime = endTime; }
+    public String getPaymentMethod() { return paymentMethod; }
+    public void setPaymentMethod(String paymentMethod) { this.paymentMethod = paymentMethod; }
 
     public BigDecimal getTotalPrice() { return totalPrice; }
     public void setTotalPrice(BigDecimal totalPrice) { this.totalPrice = totalPrice; }
@@ -57,8 +53,6 @@ public class Contract {
                 "id=" + id +
                 ", customerId=" + (customer != null ? customer.getId() : null) +
                 ", carId=" + (car != null ? car.getId() : null) +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
                 ", totalPrice=" + totalPrice +
                 ", status=" + status +
                 '}';

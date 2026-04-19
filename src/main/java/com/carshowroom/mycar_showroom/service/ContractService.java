@@ -9,6 +9,7 @@ import com.carshowroom.mycar_showroom.entity.Payment;
 import com.carshowroom.mycar_showroom.repository.ContractRepository;
 import com.carshowroom.mycar_showroom.repository.CarRepository;
 import com.carshowroom.mycar_showroom.repository.CustomerRepository;
+import com.carshowroom.mycar_showroom.dto.PurchaseDTO;
 import com.carshowroom.mycar_showroom.dto.ContractDTO;
 import com.carshowroom.mycar_showroom.entity.User;
 import com.carshowroom.mycar_showroom.repository.UserRepository;
@@ -39,43 +40,35 @@ public class ContractService {
     @Autowired
     private AuditService auditService;
 
-    @Transactional
-    public void createRentalContract(ContractDTO dto) {
-        // Get current authenticated user
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByUsername(username)
-            .orElseThrow(() -> new IllegalArgumentException("User not found: " + username));
-        
-        Customer customer = user.getCustomer();
-        if (customer == null) {
-            throw new IllegalArgumentException("Authenticated user has no associated customer record");
-        }
+@Transactional
+    public void createPurchase(PurchaseDTO dto) {
+        // Get current authenticated user (optional - allow guest purchase)
+        Customer customer = new Customer();
+        customer.setFullName(dto.getCustomerName());
+        customer.setPhone(dto.getPhone());
+        customer.setEmail(dto.getEmail());
+        customerRepository.save(customer);
 
         // Check car availability
         Car car = carRepository.findById(dto.getCarId()).orElseThrow(() -> new IllegalArgumentException("Car not found"));
         if (car.getStatus() != CarStatus.AVAILABLE) {
-            throw new IllegalArgumentException("Car is not available for rental");
+            throw new IllegalArgumentException("Car is not available for purchase");
         }
-
-        // Calculate rental cost
-        long days = dto.getRentalDays();
-        BigDecimal totalPrice = car.getPricePerDay().multiply(BigDecimal.valueOf(days));
 
         // Create contract
         Contract contract = new Contract();
         contract.setCustomer(customer);
         contract.setCar(car);
-        contract.setStartTime(LocalDateTime.now());
-        contract.setEndTime(LocalDateTime.now().plusDays(days));
-        contract.setTotalPrice(totalPrice);
-        contract.setStatus(ContractStatus.PENDING);
+        contract.setStatus(ContractStatus.COMPLETED);
+        contract.setPaymentMethod(dto.getPaymentMethod());
+        contract.setTotalPrice(car.getPrice());
         contractRepository.save(contract);
 
-        // Update car status
-        car.setStatus(CarStatus.BOOKED);
+        // Update car status to SOLD
+        car.setStatus(CarStatus.SOLD);
         carRepository.save(car);
 
-        auditService.log("CREATE_CONTRACT", "Contract created for car " + dto.getCarId() + " by customer " + customer.getId());
+        auditService.log("CREATE_PURCHASE", "Purchase completed for car " + dto.getCarId() + " by customer " + customer.getId());
     }
 
 

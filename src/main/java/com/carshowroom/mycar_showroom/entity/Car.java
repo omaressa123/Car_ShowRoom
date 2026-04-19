@@ -16,7 +16,6 @@ public class Car {
     private String brand;
     private String model;
     private Integer year;
-    private BigDecimal pricePerDay;
 
     @Enumerated(EnumType.STRING)
     private CarStatus status = CarStatus.AVAILABLE;
@@ -31,12 +30,18 @@ public class Car {
     // Constructors
     public Car() {}
 
-    public Car(String plateNumber, String brand, String model, Integer year, BigDecimal pricePerDay, Branch branch) {
+private BigDecimal price;
+
+    // Getters/Setters
+    public BigDecimal getPrice() { return price; }
+    public void setPrice(BigDecimal price) { this.price = price; }
+
+public Car(String plateNumber, String brand, String model, Integer year, BigDecimal price, Branch branch) {
         this.plateNumber = plateNumber;
         this.brand = brand;
         this.model = model;
         this.year = year;
-        this.pricePerDay = pricePerDay;
+        this.price = price;
         this.branch = branch;
     }
 
@@ -56,8 +61,7 @@ public class Car {
     public Integer getYear() { return year; }
     public void setYear(Integer year) { this.year = year; }
 
-    public BigDecimal getPricePerDay() { return pricePerDay; }
-    public void setPricePerDay(BigDecimal pricePerDay) { this.pricePerDay = pricePerDay; }
+
 
     public CarStatus getStatus() { return status; }
     public void setStatus(CarStatus status) { this.status = status; }
@@ -76,7 +80,6 @@ public class Car {
                 ", brand='" + brand + '\'' +
                 ", model='" + model + '\'' +
                 ", year=" + year +
-                ", pricePerDay=" + pricePerDay +
                 ", status=" + status +
                 ", branchId=" + (branch != null ? branch.getId() : null) +
                 '}';

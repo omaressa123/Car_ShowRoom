@@ -59,10 +59,10 @@ public class HomeController {
     }
 
     /**
-     * Rental Contract page (UC-08)
+     * Purchase page
      */
-    @GetMapping("/rent")
-    public String rent() {
-        return "rent";
+    @GetMapping("/purchase")
+    public String purchase() {
+        return "purchase";
     }
 }

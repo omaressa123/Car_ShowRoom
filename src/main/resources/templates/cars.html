@@ -4,17 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Find Your Car - CarShowroom</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <nav class="navbar" id="main-nav"></nav>
 
     <div class="container">
-        <!-- USE CASE NAME: UC-07 Search & Filter Cars -->
+        <!-- USE CASE NAME: Search & Filter Cars -->
         <div class="card" style="margin-bottom: 3rem;">
             <h2>Find Your Perfect Car</h2>
             <p style="font-size: 0.9rem; color: #777; margin-bottom: 2rem;">
-                This UI implements <strong>: Search & Filter Cars</strong>, querying car and branch availability from the backend.
+                This UI implements <strong>Search & Filter Cars</strong>, querying car inventory for purchase from the backend.
             </p>
             
             <form id="search-form" class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
@@ -49,61 +55,59 @@
             <p>Searching inventory...</p>
         </div>
 
-        <!-- USE CASE NAME: UC-08 Create Rental Contract (Booking) -->
-        <div id="car-results" class="grid">
-            <!-- Mock Car Card (UI for UC-08 trigger) -->
-            <div class="card car-card">
-                <h3>BMW 3 Series (2023)</h3>
-                <p class="price">$85.00 / day</p>
-                <p>Location: Main Branch, NYC</p>
-                <p style="margin: 1rem 0; font-size: 0.85rem; color: #666;">
-                    Select this car to initiate <strong>UC-08: Create Rental Contract</strong>.
-                </p>
-                <button class="btn btn-primary book-btn" data-car-id="1">Rent This Car</button>
-            </div>
-            
-            <div class="card car-card">
-                <h3>Audi A4 (2022)</h3>
-                <p class="price">$75.00 / day</p>
-                <p>Location: Downtown, LA</p>
-                <p style="margin: 1rem 0; font-size: 0.85rem; color: #666;">
-                    Available for immediate rental contract creation.
-                </p>
-                <button class="btn btn-primary book-btn" data-car-id="2">Rent This Car</button>
-            </div>
+        <!-- USE CASE: Search & Display Cars for Purchase -->
+        <div id="car-results" class="row g-4">
+            <!-- Dynamic cars rendered by JS with Bootstrap cards -->
         </div>
     </div>
 
-    <!-- Booking Modal (UI for UC-08 flow) -->
-    <div id="booking-modal" style="display:none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center;">
-        <div class="card" style="width: 100%; max-width: 500px;">
-            <h3>Finalize Your Rental Contract</h3>
-            <p style="margin-bottom: 2rem; font-size: 0.9rem;">
-                This flow completes <strong>UC-08</strong> by creating a record in the <code>Contract</code> table.
-            </p>
-            <form id="booking-form">
+    <!-- Purchase Modal -->
+    <div id="purchase-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; flex-direction: column;">
+        <div id="purchase-summary" class="card" style="width: 90%; max-width: 500px; padding: 2rem;">
+            <!-- Dynamic summary populated by JS -->
+        </div>
+        <button onclick="closePurchaseModal()" style="margin-top: 1rem; padding: 0.75rem 1.5rem; background: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">Close Summary</button>
+        
+        <div class="card" style="width: 90%; max-width: 500px; margin-top: 1rem; padding: 2rem;">
+            <h3>Customer Details</h3>
+            <form id="purchase-form">
                 <div class="form-group">
-                    <label>Payment Method</label>
+                    <label>Customer Name *</label>
+                    <input type="text" id="customer-name" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone *</label>
+                    <input type="tel" id="customer-phone" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="customer-email">
+                </div>
+                <div class="form-group">
+                    <label>Payment Method *</label>
                     <select id="payment-method" required>
                         <option value="1">Credit Card</option>
                         <option value="2">PayPal</option>
-                        <option value="3">Cash on Pickup</option>
+                        <option value="3">Cash</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label>Rental Duration (Days)</label>
-                    <input type="number" id="rental-days" min="1" value="1" required>
-                </div>
-                <div style="display: flex; gap: 1rem;">
-                    <button type="submit" class="btn btn-primary">Confirm Booking</button>
-                    <button type="button" id="close-modal" class="btn btn-accent">Cancel</button>
-                </div>
+                <button type="submit" id="confirm-purchase-btn" class="btn btn-primary" style="width: 100%;">Confirm Purchase</button>
             </form>
         </div>
     </div>
 
 <script src="/js/api.js"></script>
-    <script src="/js/auth.js"></script>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- jQuery for DataTables -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <script src="/js/api.js"></script>
     <script src="/js/search.js"></script>
     <script src="/js/rent.js"></script>
     <script>

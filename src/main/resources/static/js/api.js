@@ -8,14 +8,14 @@ function updateNavbar() {
     const navbar = document.getElementById('main-nav');
     if (!navbar) return;
 
-    const user = JSON.parse(localStorage.getItem('car_rental_user'));
+    const user = JSON.parse(localStorage.getItem('car_showroom_user') || 'null');
 
     let navLinks = '';
 
     if (user) {
         navLinks = `
             <li><a href="/cars">Search Cars</a></li>
-            <li><a href="/rent">Rentals</a></li>
+            <li><a href="/purchase">Purchases</a></li>
             <li><a href="/dashboard">Dashboard</a></li>
         `;
         navLinks += `<li><a href="#" id="logout-btn">Logout (${user.username})</a></li>`;

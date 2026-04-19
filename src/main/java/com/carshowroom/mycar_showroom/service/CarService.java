@@ -51,7 +51,7 @@ public class CarService {
             dto.put("brand", car.getBrand());
             dto.put("model", car.getModel());
             dto.put("year", car.getYear());
-            dto.put("price", car.getPricePerDay());
+            dto.put("price", car.getPrice());
             dto.put("status", car.getStatus());
             dto.put("branchId", car.getBranch() != null ? car.getBranch().getId() : null);
             dto.put("branchName", car.getBranch() != null ? car.getBranch().getName() : "N/A");
@@ -75,7 +75,6 @@ public class CarService {
         car.setBrand(dto.getBrand());
         car.setModel(dto.getModel());
         car.setYear(dto.getYear());
-        car.setPricePerDay(dto.getPricePerDay());
         car.setBranch(branch);
         car.setStatus(CarStatus.AVAILABLE);
         carRepository.save(car);
@@ -85,7 +84,7 @@ public class CarService {
     @Transactional
     public void updateCarPrice(Long id, BigDecimal newPrice) {
         Car car = carRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Car not found"));
-        car.setPricePerDay(newPrice);
+        car.setPrice(newPrice);
         carRepository.save(car);
         auditService.log("UPDATE_PRICE", "Car ID " + id + " price updated to " + newPrice);
     }

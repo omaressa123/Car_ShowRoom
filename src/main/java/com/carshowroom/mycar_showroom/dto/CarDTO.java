@@ -18,19 +18,22 @@ public class CarDTO {
 
     @NotNull(message = "Year is required")
     @Min(value = 1900, message = "Year must be after 1900")
-    @Max(value = 2030, message = "Year cannot be in future")
+    @Max(value = 2027, message = "Year cannot be in future")
     private Integer year;
-
-    @NotNull(message = "Price is required")
-    @DecimalMin(value = "0.01", message = "Price must be positive")
-    private BigDecimal pricePerDay;
 
     @NotNull(message = "Branch ID is required")
     @Min(value = 1, message = "Branch ID must be positive")
     private Long branchId;
 
+    @NotNull(message = "Price is required")
+    @DecimalMin(value = "0.01", message = "Price must be positive")
+    private BigDecimal price;
+
     // Constructors
     public CarDTO() {}
+
+    public BigDecimal getPrice() { return price; }
+    public void setPrice(BigDecimal price) { this.price = price; }
 
     // Getters/Setters
     public String getPlateNumber() { return plateNumber; }
@@ -45,8 +48,6 @@ public class CarDTO {
     public Integer getYear() { return year; }
     public void setYear(Integer year) { this.year = year; }
 
-    public BigDecimal getPricePerDay() { return pricePerDay; }
-    public void setPricePerDay(BigDecimal pricePerDay) { this.pricePerDay = pricePerDay; }
 
     public Long getBranchId() { return branchId; }
     public void setBranchId(Long branchId) { this.branchId = branchId; }

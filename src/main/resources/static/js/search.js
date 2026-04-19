@@ -3,17 +3,16 @@ async function searchCars(filters) {
     const results = document.getElementById('car-results');
     const searchBtn = document.getElementById('search-btn');
 
-    // Show loading state
-    if (loading) loading.style.display = 'flex';
-    if (results) results.style.opacity = '0.4';
-
-    if (searchBtn) {
-        searchBtn.disabled = true;
-        searchBtn.innerHTML = `
-            <span class="spinner-border spinner-border-sm"></span>
-            Searching...
-        `;
-    }
+    // Show enhanced loading
+    Swal.fire({
+        title: 'Searching cars...',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showConfirmButton: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
 
     try {
         const queryParams = new URLSearchParams(filters).toString();
@@ -25,31 +24,29 @@ async function searchCars(filters) {
 
         const data = await response.json();
 
-        if (data.success) {
+        if (data.success && data.data) {
             renderCars(data.data);
-
-            showToast(
-                'success',
-                `${data.data.length} car(s) found successfully`
-            );
-
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: `${data.data.length} car(s) found`,
+                toast: true,
+                position: 'top-end',
+                timer: 3000,
+                showConfirmButton: false
+            });
         } else {
-            throw new Error(data.message || 'Failed to fetch cars');
+            throw new Error(data.message || 'No cars found');
         }
 
     } catch (error) {
         console.error('Search error:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Search Failed',
+            text: error.message
+        });
 
-        showToast('error', error.message);
-
-    } finally {
-        if (loading) loading.style.display = 'none';
-        if (results) results.style.opacity = '1';
-
-        if (searchBtn) {
-            searchBtn.disabled = false;
-            searchBtn.innerHTML = `Search`;
-        }
     }
 }
 
@@ -68,26 +65,28 @@ function renderCars(cars) {
     }
 
     results.innerHTML = cars.map(car => `
-        <div class="card car-card shadow-sm">
-            <div class="card-body">
-                <h3>${car.brand} ${car.model} (${car.year})</h3>
-                <p class="price">$${car.pricePerDay} / day</p>
-                <p>📍 ${car.branchName || 'Main Branch'}</p>
-
-                <button class="btn btn-primary w-100"
-                    onclick="rentCar(${car.id})">
-                    Rent This Car
-                </button>
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow-sm border-0 hover-lift">
+                <div class="card-body d-flex flex-column">
+                    <div class="text-center mb-3">
+                        <i class="fas fa-car-side fa-3x text-primary mb-2"></i>
+                    </div>
+                    <h5 class="card-title">${car.brand} ${car.model}</h5>
+                    <p class="card-text text-muted mb-1">Year: ${car.year}</p>
+                    <p class="card-text text-muted mb-3">📍 ${car.branchName || 'Main Branch'}</p>
+                    <p class="fs-3 fw-bold text-success mb-4">$${Number(car.price || 0).toLocaleString()}</p>
+                    <button class="btn btn-primary w-100 mt-auto" onclick="openPurchaseModal(${car.id}, {
+                        brand: '${car.brand || ''}',
+                        model: '${car.model || ''}',
+                        year: ${car.year || ''},
+                        price: ${car.price || 0}
+                    })">
+                        <i class="fas fa-shopping-cart me-2"></i>Buy This Car
+                    </button>
+                </div>
             </div>
         </div>
     `).join('');
-}
-
-function rentCar(id) {
-    showToast('success', 'Redirecting to booking page...');
-    setTimeout(() => {
-        window.location.href = `/rent?carId=${id}`;
-    }, 800);
 }
 
 function showToast(type, message) {
@@ -97,7 +96,10 @@ function showToast(type, message) {
         icon: type,
         title: message,
         showConfirmButton: false,
-        timer: 2500,
-        timerProgressBar: true
+        timer: 3000,
+        timerProgressBar: true,
+        customClass: {
+            popup: 'swal-toast'
+        }
     });
 }

@@ -2,7 +2,7 @@
  * Get Authentication Headers
  */
 function getAuthHeaders() {
-    const token = localStorage.getItem('car_rental_token');
+    const token = localStorage.getItem('car_showroom_token');
     const headers = {
         'Content-Type': 'application/json'
     };
@@ -25,8 +25,8 @@ async function login(credentials) {
 
         const data = await response.json();
         if (data.success) {
-            localStorage.setItem('car_rental_user', JSON.stringify({ username: data.data.username }));
-            localStorage.setItem('car_rental_token', data.data.token);
+            localStorage.setItem('car_showroom_user', JSON.stringify({ username: data.data.username }));
+            localStorage.setItem('car_showroom_token', data.data.token);
             // Redirect based on role if needed, or just to dashboard
             window.location.href = data.data.username === 'admin' ? '/dashboard' : '/cars';
         } else {
@@ -66,8 +66,8 @@ async function register(userData) {
  * Logout
  */
 function logout() {
-    localStorage.removeItem('car_rental_user');
-    localStorage.removeItem('car_rental_token');
+    localStorage.removeItem('car_showroom_user');
+    localStorage.removeItem('car_showroom_token');
     localStorage.removeItem('car_rental_role');
     window.location.href = '/';
 }

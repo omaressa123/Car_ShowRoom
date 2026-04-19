@@ -1,6 +1,6 @@
 package com.carshowroom.mycar_showroom.controller;
 
-import com.carshowroom.mycar_showroom.dto.ContractDTO;
+import com.carshowroom.mycar_showroom.dto.PurchaseDTO;
 import com.carshowroom.mycar_showroom.dto.ResponseWrapper;
 import com.carshowroom.mycar_showroom.service.ContractService;
 import jakarta.validation.Valid;
@@ -16,11 +16,11 @@ public class ContractsController {
     @Autowired
     private ContractService contractService;
 
-    @PostMapping("/contracts")
-    public ResponseEntity<ResponseWrapper<Void>> createContract(@Valid @RequestBody ContractDTO request) {
+@PostMapping("/purchases")
+    public ResponseEntity<ResponseWrapper<Void>> createPurchase(@Valid @RequestBody PurchaseDTO request) {
         try {
-            contractService.createRentalContract(request);
-            return ResponseEntity.ok(ResponseWrapper.success("Contract created successfully"));
+            contractService.createPurchase(request);
+            return ResponseEntity.ok(ResponseWrapper.success("Purchase created successfully. Invoice generated."));
         } catch (Exception e) {
             return ResponseEntity.ok(ResponseWrapper.error(e.getMessage()));
         }
