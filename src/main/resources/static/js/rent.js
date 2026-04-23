@@ -1,153 +1,157 @@
 /**
- * Car Sale Module (formerly Rent)
- * Features:
- * Buy Car Modal
- * Purchase Summary
- * Customer Form
- * Payment Method
- * Confirm Purchase
- * Success Invoice
- * Mark Car as Sold
- * Refresh Cars List
+ * Car Sale Module
  */
 
-function openPurchaseModal(carId, carData = {}) {
-  const modal = document.getElementById('purchase-modal');
-  if (!modal) return;
+async function loadPurchaseHistory() {
+    const historyList = document.getElementById('history-list');
+    const loading = document.getElementById('history-loading');
+    const empty = document.getElementById('history-empty');
+    
+    if (!historyList) return;
 
-  modal.style.display = 'flex';
-  modal.classList.add('fade-in');
-  modal.setAttribute('data-car-id', carId);
-
-  updatePurchaseSummary(carData);
+    try {
+        const response = await fetch(`${API_BASE_URL}/my/contracts`, {
+            headers: getAuthHeaders()
+        });
+        const data = await response.json();
+        
+        if (loading) loading.style.display = 'none';
+        
+        if (data.success && Array.isArray(data.data) && data.data.length > 0) {
+            if (empty) empty.style.display = 'none';
+            historyList.innerHTML = data.data.map(contract => renderContractCard(contract)).join('');
+        } else {
+            if (empty) empty.style.display = 'block';
+            historyList.innerHTML = '';
+        }
+    } catch (error) {
+        console.error('Failed to load purchase history:', error);
+        if (loading) loading.style.display = 'none';
+        if (historyList) historyList.innerHTML = '<div class="alert alert-danger">Failed to load history. Please try again later.</div>';
+    }
 }
 
-function closePurchaseModal() {
-  const modal = document.getElementById('purchase-modal');
-  if (!modal) return;
+function renderContractCard(c) {
+    const statusClass = `status-${c.status.toLowerCase()}`;
+    const carName = `${c.brand || 'Unknown Car'} ${c.model || ''}`;
+    const imgUrl = (c.imageUrls && c.imageUrls.length > 0) ? c.imageUrls[0] : 'https://images.unsplash.com/photo-1542281286-9e0a16bb7366?auto=format&fit=crop&w=400&q=80';
 
-  modal.classList.remove('fade-in');
-  setTimeout(() => {
-    modal.style.display = 'none';
-  }, 250);
-}
-
-function updatePurchaseSummary(car = {}) {
-  const box = document.getElementById('purchase-summary');
-  if (!box) return;
-
-  const price = Number(car.price || 0);
-  const qty = typeof car.quantityAvailable === 'number' ? car.quantityAvailable : null;
-  const colors = Array.isArray(car.colors) ? car.colors : [];
-  const isAvailable = qty === null ? true : qty > 0;
-
-  box.innerHTML = `
-    <div class="summary-item"><strong>Car:</strong> ${car.brand || '-'} ${car.model || ''} (${car.year || ''})</div>
-    <div class="summary-item"><strong>Price:</strong> $${price.toLocaleString()}</div>
-    ${colors.length ? `<div class="summary-item"><strong>Colors:</strong> ${colors.join(', ')}</div>` : ''}
-    ${qty !== null ? `<div class="summary-item"><strong>Available:</strong> ${qty}</div>` : ''}
-    <div class="summary-item"><strong>Status:</strong> ${isAvailable ? 'Available' : 'Unavailable'}</div>
-  `;
+    return `
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="purchase-card card">
+                <img src="${imgUrl}" class="purchase-car-img" alt="${carName}">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title fw-bold mb-0">${carName}</h5>
+                        <span class="status-badge ${statusClass}">${c.status}</span>
+                    </div>
+                    <p class="text-muted small mb-3">${c.year || ''} | ${c.branchName || 'Main Branch'}</p>
+                    
+                    <div class="border-top pt-3 mt-2">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="text-muted small">Total Price:</span>
+                            <span class="fw-bold text-success">$${Number(c.totalPrice || 0).toLocaleString()}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="text-muted small">Payment:</span>
+                            <span class="small">${c.paymentMethod?.replaceAll('_', ' ')}</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted small">Order ID:</span>
+                            <span class="small">#${c.id}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
 }
 
 async function confirmPurchase() {
-  const token = localStorage.getItem('car_showroom_token');
-  if (!token || token === 'null' || token === 'undefined' || token.trim() === '') {
-    Swal.fire({
-      icon: 'warning',
-      title: 'Login required',
-      text: 'Please login before making a purchase.'
-    }).then(() => {
-      window.location.href = '/login';
-    });
-    return;
-  }
-
-  // Read carId from the form input (populated from URL ?carId=X)
-  // Fall back to modal attribute if the input doesn't exist
-  const carIdInput = document.getElementById('car-id');
-  const rawCarId = carIdInput?.value?.trim()
-    || document.getElementById('purchase-modal')?.getAttribute('data-car-id');
-
-  if (!rawCarId) {
-    Swal.fire({ icon: 'error', title: 'Error', text: 'Car ID is missing. Please go back and select a car.' });
-    return;
-  }
-
-  const carId = parseInt(rawCarId, 10);
-  if (isNaN(carId)) {
-    Swal.fire({ icon: 'error', title: 'Error', text: 'Invalid car ID. Please go back and select a car.' });
-    return;
-  }
-
-  const customerName = document.getElementById('customer-name')?.value.trim();
-  const phone = document.getElementById('customer-phone')?.value.trim();
-  const email = document.getElementById('customer-email')?.value.trim();
-  const paymentMethod = document.getElementById('payment-method')?.value;
-
-  if (!customerName || !phone || !paymentMethod) {
-    Swal.fire({ icon: 'error', title: 'Missing Data', text: 'Please fill all required fields' });
-    return;
-  }
-
-  const payload = {
-    carId,          // FIX 2: now a number (Long), not a string
-    customerName,
-    phone,
-    email,
-    paymentMethod
-  };
-
-  const btn = document.getElementById('confirm-purchase-btn');
-
-  try {
-    if (btn) {
-      btn.disabled = true;
-      btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Processing...';
+    const token = localStorage.getItem('car_showroom_token');
+    if (!token || token === 'null' || token === 'undefined' || token.trim() === '') {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Login required',
+            text: 'Please login before making a purchase.'
+        }).then(() => {
+            window.location.href = '/login';
+        });
+        return;
     }
 
-    Swal.fire({
-      title: 'Creating Purchase Contract...',
-      allowOutsideClick: false,
-      didOpen: () => Swal.showLoading()
-    });
+    const carIdInput = document.getElementById('car-id');
+    const carId = carIdInput ? parseInt(carIdInput.value, 10) : null;
 
-    const response = await fetch(`${API_BASE_URL}/purchases`, {
-      method: 'POST',
-      // FIX 3: ensure Content-Type is always set so Spring can parse @RequestBody
-      headers: {
-        'Content-Type': 'application/json',
-        ...getAuthHeaders()
-      },
-      body: JSON.stringify(payload)
-    });
-
-    // FIX 4: check HTTP status before parsing JSON to get a clear error message
-    if (!response.ok) {
-      const errBody = await response.json().catch(() => ({}));
-      throw new Error(errBody.message || `Server error: ${response.status}`);
+    if (!carId || isNaN(carId)) {
+        Swal.fire({ icon: 'error', title: 'Error', text: 'Invalid car selection.' });
+        return;
     }
 
-    const data = await response.json();
-    if (!data.success) throw new Error(data.message || 'Purchase failed');
+    const customerName = document.getElementById('customer-name')?.value.trim();
+    const phone = document.getElementById('customer-phone')?.value.trim();
+    const email = document.getElementById('customer-email')?.value.trim();
+    const ssn = document.getElementById('customer-ssn')?.value.trim();
+    const idPhotoUrl = document.getElementById('id-photo-url')?.value.trim();
+    const paymentMethod = document.getElementById('payment-method')?.value;
 
-    Swal.fire({
-      icon: 'success',
-      title: 'Purchase Submitted',
-      text: 'Your purchase contract is pending admin approval.'
-    });
-
-    document.getElementById('purchase-form')?.reset();
-    closePurchaseModal();
-
-    if (typeof searchCars === 'function') searchCars({});
-
-  } catch (error) {
-    Swal.fire({ icon: 'error', title: 'Purchase Failed', text: error.message });
-  } finally {
-    if (btn) {
-      btn.disabled = false;
-      btn.innerHTML = 'Confirm Purchase';
+    if (!customerName || !phone || !paymentMethod || !ssn || !idPhotoUrl) {
+        Swal.fire({ icon: 'error', title: 'Missing Data', text: 'Please fill all required fields including SSN and ID Photo' });
+        return;
     }
-  }
+
+    const payload = {
+        carId,
+        customerName,
+        phone,
+        email,
+        ssn,
+        idPhotoUrl,
+        paymentMethod
+    };
+
+    const btn = document.getElementById('confirm-purchase-btn');
+
+    try {
+        if (btn) {
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Processing...';
+        }
+
+        const response = await fetch(`${API_BASE_URL}/purchases`, {
+            method: 'POST',
+            headers: getAuthHeaders(),
+            body: JSON.stringify(payload)
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (response.ok && data.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Purchase Request Sent!',
+                text: 'Your request is pending approval. You can track it in My Purchases.',
+                timer: 3000
+            }).then(() => {
+                window.location.href = '/purchase'; // Refresh to show history
+            });
+        } else {
+            let errorMsg = data.message || 'Purchase failed';
+            if (data.errors) {
+                errorMsg += ':\n' + Object.entries(data.errors).map(([field, msg]) => `• ${field}: ${msg}`).join('\n');
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Request Failed',
+                text: errorMsg
+            });
+        }
+    } catch (error) {
+        Swal.fire({ icon: 'error', title: 'Purchase Failed', text: error.message });
+    } finally {
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = 'Confirm Purchase';
+        }
+    }
 }

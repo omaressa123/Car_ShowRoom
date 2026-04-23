@@ -7,6 +7,7 @@ public class ResponseWrapper<T> {
     private boolean success;
     private String message;
     private T data;
+    private java.util.Map<String, String> errors;
     private String timestamp;
 
     public ResponseWrapper() {
@@ -20,6 +21,13 @@ public class ResponseWrapper<T> {
         this.data = data;
     }
 
+    public ResponseWrapper(boolean success, String message, java.util.Map<String, String> errors) {
+        this();
+        this.success = success;
+        this.message = message;
+        this.errors = errors;
+    }
+
     // Success factory
     public static <T> ResponseWrapper<T> success(String message, T data) {
         return new ResponseWrapper<>(true, message, data);
@@ -31,7 +39,11 @@ public class ResponseWrapper<T> {
 
     // Error factory
     public static <T> ResponseWrapper<T> error(String message) {
-        return new ResponseWrapper<>(false, message, null);
+        return new ResponseWrapper<>(false, message, (T) null);
+    }
+
+    public static <T> ResponseWrapper<T> validationError(String message, java.util.Map<String, String> errors) {
+        return new ResponseWrapper<>(false, message, errors);
     }
 
     // Getters/Setters
@@ -43,6 +55,9 @@ public class ResponseWrapper<T> {
 
     public T getData() { return data; }
     public void setData(T data) { this.data = data; }
+
+    public java.util.Map<String, String> getErrors() { return errors; }
+    public void setErrors(java.util.Map<String, String> errors) { this.errors = errors; }
 
     public String getTimestamp() { return timestamp; }
     public void setTimestamp(String timestamp) { this.timestamp = timestamp; }

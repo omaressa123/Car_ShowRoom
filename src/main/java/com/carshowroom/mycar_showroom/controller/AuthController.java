@@ -13,6 +13,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -32,7 +34,7 @@ public class AuthController {
     private AuthService authService;
 
 @PostMapping("/login")
-    public ResponseEntity<ResponseWrapper<LoginResponse>> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<ResponseWrapper<LoginResponse>> login(@Valid @RequestBody LoginRequest request) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
@@ -47,7 +49,7 @@ public class AuthController {
     }
 
 @PostMapping("/register")
-    public ResponseEntity<ResponseWrapper<Void>> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<ResponseWrapper<Void>> register(@Valid @RequestBody RegisterRequest request) {
         try {
             if (authService.userExists(request.getUsername())) {
                 return ResponseEntity.ok(ResponseWrapper.error("Username already exists"));
@@ -84,7 +86,11 @@ public class AuthController {
 
 // DTOs
 class LoginRequest {
+    @NotBlank(message = "Username required")
+    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "Username must not contain numbers or special characters")
     private String username;
+
+    @NotBlank(message = "Password required")
     private String password;
     
     public LoginRequest(String username, String password) {
@@ -99,10 +105,23 @@ class LoginRequest {
 }
 
 class RegisterRequest {
+    @NotBlank(message = "Username required")
+    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "Username must not contain numbers or special characters")
     private String username;
+
+    @NotBlank(message = "Password required")
+    @Size(min = 6, message = "Password too short")
     private String password;
+
+    @Email(message = "Invalid email")
     private String email;
+
+    @NotBlank(message = "Full name required")
+    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "Full name must not contain numbers or special characters")
     private String fullName;
+
+    @NotBlank(message = "Phone number required")
+    @Pattern(regexp = "^[0-9]+$", message = "Phone number must contain only numbers")
     private String phone;
     
     public String getUsername() { return username; }

@@ -28,6 +28,8 @@ public class Contract {
     private String customerNameSnapshot;
     private String customerPhoneSnapshot;
     private String customerEmailSnapshot;
+    private String customerSsnSnapshot;
+    private String idPhotoUrlSnapshot;
 
     @Enumerated(EnumType.STRING)
     private ContractStatus status = ContractStatus.PENDING;
@@ -62,6 +64,12 @@ public class Contract {
 
     public String getCustomerEmailSnapshot() { return customerEmailSnapshot; }
     public void setCustomerEmailSnapshot(String customerEmailSnapshot) { this.customerEmailSnapshot = customerEmailSnapshot; }
+    
+    public String getCustomerSsnSnapshot() { return customerSsnSnapshot; }
+    public void setCustomerSsnSnapshot(String customerSsnSnapshot) { this.customerSsnSnapshot = customerSsnSnapshot; }
+
+    public String getIdPhotoUrlSnapshot() { return idPhotoUrlSnapshot; }
+    public void setIdPhotoUrlSnapshot(String idPhotoUrlSnapshot) { this.idPhotoUrlSnapshot = idPhotoUrlSnapshot; }
 
     public ContractStatus getStatus() { return status; }
     public void setStatus(ContractStatus status) { this.status = status; }

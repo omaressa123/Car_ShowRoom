@@ -1,0 +1,15 @@
+package com.carshowroom.mycar_showroom.repository;
+
+import com.carshowroom.mycar_showroom.entity.Color;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public interface ColorRepository extends JpaRepository<Color, Long> {
+    List<Color> findAllByOrderByNameAsc();
+    boolean existsByNameIgnoreCase(String name);
+    Optional<Color> findByNameIgnoreCase(String name);
+}

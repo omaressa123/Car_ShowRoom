@@ -1,0 +1,28 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: car-showroom-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: showroom_2
+      MYSQL_ROOT_PASSWORD: yahya2004718
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  app:
+    build: .
+    container_name: car-showroom-app
+    restart: always
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/showroom_2?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: yahya2004718
+    ports:
+      - "8080:8080"
+
+volumes:
+  mysql_data:

@@ -3,6 +3,8 @@ package com.carshowroom.mycar_showroom.controller;
 import com.carshowroom.mycar_showroom.dto.ResponseWrapper;
 import com.carshowroom.mycar_showroom.repository.BranchRepository;
 import com.carshowroom.mycar_showroom.repository.CarRepository;
+import com.carshowroom.mycar_showroom.repository.ColorRepository;
+import com.carshowroom.mycar_showroom.repository.CompanyRepository;
 import com.carshowroom.mycar_showroom.repository.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,10 +28,17 @@ public class OptionsController {
     private CarRepository carRepository;
 
     @Autowired
+    private CompanyRepository companyRepository;
+
+    @Autowired
+    private ColorRepository colorRepository;
+
+    @Autowired
     private PaymentRepository paymentRepository;
 
     @GetMapping
     public ResponseEntity<ResponseWrapper<Map<String, Object>>> getDynamicOptions() {
+        // Branches
         List<Map<String, Object>> branches = branchRepository.findAllByOrderByNameAsc().stream().map(b -> {
             Map<String, Object> dto = new HashMap<>();
             dto.put("id", b.getId());
@@ -38,8 +47,23 @@ public class OptionsController {
             return dto;
         }).collect(Collectors.toList());
 
-        List<String> companies = carRepository.findDistinctBrands();
+        // Companies from dedicated table (falls back to distinct brands on cars)
+        List<Map<String, Object>> companies = companyRepository.findAllByOrderByNameAsc().stream().map(c -> {
+            Map<String, Object> dto = new HashMap<>();
+            dto.put("id", c.getId());
+            dto.put("name", c.getName());
+            return dto;
+        }).collect(Collectors.toList());
 
+        // Colors from dedicated table
+        List<Map<String, Object>> colors = colorRepository.findAllByOrderByNameAsc().stream().map(c -> {
+            Map<String, Object> dto = new HashMap<>();
+            dto.put("id", c.getId());
+            dto.put("name", c.getName());
+            return dto;
+        }).collect(Collectors.toList());
+
+        // Payment methods
         List<String> paymentMethods = paymentRepository.findDistinctPaymentMethods();
         if (paymentMethods.isEmpty()) {
             paymentMethods = List.of("credit_card", "bank_transfer", "crypto");
@@ -48,9 +72,9 @@ public class OptionsController {
         Map<String, Object> data = new HashMap<>();
         data.put("branches", branches);
         data.put("companies", companies);
+        data.put("colors", colors);
         data.put("paymentMethods", paymentMethods);
 
         return ResponseEntity.ok(ResponseWrapper.success("Dynamic options loaded", data));
     }
 }
-

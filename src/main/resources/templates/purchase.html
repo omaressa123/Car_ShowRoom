@@ -3,107 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Purchase a Car - Premium Auto</title>
+    <title>My Purchases - Premium Auto</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .status-badge {
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .status-pending { background: #fef3c7; color: #92400e; }
+        .status-active { background: #e0f2fe; color: #075985; }
+        .status-completed { background: #dcfce7; color: #166534; }
+        .status-cancelled { background: #fee2e2; color: #991b1b; }
+        
+        .purchase-card {
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+            margin-bottom: 1.5rem;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .purchase-card:hover { transform: translateY(-3px); }
+        .purchase-car-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        .section-title {
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 4px;
+            background: var(--secondary-color, #3b82f6);
+            border-radius: 2px;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar" id="main-nav"></nav>
 
-    <div class="container" style="display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 100px);">
-        <div class="card animate-fade-in-down" style="width: 100%; max-width: 650px; padding: 3rem;">
-            <h2 style="font-weight: 700; color: var(--primary-color); margin-bottom: 0.5rem;">Finalize Your Purchase</h2>
-            <p style="color: #64748b; margin-bottom: 2.5rem;">Please review your details and confirm your preferred payment method.</p>
-            
-            <div id="alert-success" class="alert alert-success" style="display:none; color: green; margin-bottom: 1rem;"></div>
-            <div id="alert-error" class="alert alert-error" style="display:none; color: red; margin-bottom: 1rem;"></div>
-            
-            <form id="purchase-form">
-                <div class="form-group">
-                    <label>Selected Car ID</label>
-                    <input type="text" id="car-id" class="form-control" readonly required style="background: #f1f5f9; font-weight: 600;">
-                </div>
-                
-                <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1rem;">
-                    <div class="form-group">
-                        <label>Customer Name *</label>
-                        <input type="text" id="customer-name" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Phone *</label>
-                        <input type="tel" id="customer-phone" class="form-control" required>
+    <div class="container py-5">
+        <!-- Section 1: Finalize Purchase (Only shown if carId in URL) -->
+        <div id="checkout-section" style="display: none;" class="mb-5">
+            <h2 class="section-title">Finalize Your Purchase</h2>
+            <div class="card p-4 border-0 shadow-sm">
+                <div id="checkout-car-details" class="mb-4 p-3 rounded" style="background: #f8fafc; border-left: 4px solid #3b82f6;">
+                    <div class="row align-items-center">
+                        <div class="col-md-2" id="checkout-img-container"></div>
+                        <div class="col-md-10">
+                            <h4 id="checkout-car-name" class="mb-1">Loading car details...</h4>
+                            <p id="checkout-car-info" class="text-muted mb-0"></p>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="customer-email" class="form-control">
-                </div>
-                
-                <div class="form-group" style="margin-bottom: 2.5rem;">
-                    <label>Payment Method *</label>
-                    <select id="payment-method" class="form-control" required>
-                        <option value="credit_card">Premium Credit Card</option>
-                        <option value="bank_transfer">Direct Bank Transfer</option>
-                        <option value="crypto">Cryptocurrency</option>
-                    </select>
-                </div>
-                
-                <div style="display: flex; gap: 1rem; justify-content: flex-end;">
-                    <button type="button" onclick="window.location.href='/cars'" class="btn" style="background: #e2e8f0; color: #475569;">Cancel</button>
-                    <button type="submit" id="confirm-purchase-btn" class="btn btn-primary" style="padding: 0.85rem 2.5rem;">Confirm Purchase</button>
-                </div>
-            </form>
+
+                <form id="purchase-form">
+                    <input type="hidden" id="car-id">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Customer Name *</label>
+                            <input type="text" id="customer-name" class="form-control" required placeholder="Enter full name">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Phone Number *</label>
+                            <input type="tel" id="customer-phone" class="form-control" required placeholder="+1 (555) 000-0000">
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label fw-semibold">Email Address (Optional)</label>
+                            <input type="email" id="customer-email" class="form-control" placeholder="name@example.com">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">SSN / National ID *</label>
+                            <input type="text" id="customer-ssn" class="form-control" required placeholder="Enter SSN">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">ID Photo URL *</label>
+                            <input type="url" id="id-photo-url" class="form-control" required placeholder="Link to your ID photo">
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label fw-semibold">Payment Method *</label>
+                            <select id="payment-method" class="form-select" required></select>
+                        </div>
+                        <div class="col-12 mt-4 d-flex gap-3">
+                            <button type="submit" id="confirm-purchase-btn" class="btn btn-primary px-5 py-2 fw-bold">Confirm Purchase</button>
+                            <button type="button" onclick="cancelCheckout()" class="btn btn-outline-secondary px-4">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Section 2: Purchase History -->
+        <div id="history-section">
+            <h2 class="section-title">My Purchase History</h2>
+            <div id="history-loading" class="text-center py-5">
+                <div class="spinner-border text-primary" role="status"></div>
+                <p class="mt-2 text-muted">Loading your purchases...</p>
+            </div>
+            
+            <div id="history-empty" style="display: none;" class="text-center py-5 bg-white rounded shadow-sm">
+                <i class="fas fa-shopping-bag fa-4x text-muted mb-3 opacity-25"></i>
+                <h3>No purchases yet</h3>
+                <p class="text-muted">Explore our catalog to find your dream car.</p>
+                <a href="/cars" class="btn btn-primary mt-2">Browse Cars</a>
+            </div>
+
+            <div id="history-list" class="row">
+                <!-- Purchases populated by JS -->
+            </div>
         </div>
     </div>
 
-    <!-- Purchase Modal Overlay (for summary if needed) -->
-    <div id="purchase-modal" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(5px); z-index: 2000; align-items: center; justify-content: center; flex-direction: column;">
-        <div id="purchase-summary" class="card" style="width: 90%; max-width: 500px; padding: 2rem;">
-            <!-- Dynamic summary populated by JS -->
-        </div>
-        <button onclick="closePurchaseModal()" class="btn" style="margin-top: 1rem; background: #ef4444; color: white;">Close</button>
-    </div>
-
+    <!-- Scripts -->
     <script src="/js/api.js"></script>
     <script src="/js/auth.js"></script>
     <script src="/js/options.js"></script>
     <script src="/js/rent.js"></script>
-    <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <script>
-        // Get car ID from URL if available
-        const urlParams = new URLSearchParams(window.location.search);
-        const carId = urlParams.get('carId');
-        if (carId) {
-            document.getElementById('car-id').value = carId;
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const carId = urlParams.get('carId');
+            
+            if (carId) {
+                document.getElementById('checkout-section').style.display = 'block';
+                document.getElementById('car-id').value = carId;
+                loadCheckoutDetails(carId);
+                loadPaymentMethods();
+            }
+            
+            loadPurchaseHistory();
+        });
+
+        async function loadCheckoutDetails(id) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/cars/${id}`, { headers: getAuthHeaders() });
+                const data = await response.json();
+                if (data.success) {
+                    const car = data.data;
+                    document.getElementById('checkout-car-name').textContent = `${car.brand} ${car.model}`;
+                    document.getElementById('checkout-car-info').textContent = `${car.year} | $${Number(car.price).toLocaleString()} | ${car.branchName}`;
+                    if (car.imageUrls && car.imageUrls.length > 0) {
+                        document.getElementById('checkout-img-container').innerHTML = `<img src="${car.imageUrls[0]}" class="img-fluid rounded shadow-sm">`;
+                    }
+                }
+            } catch (err) { console.error(err); }
         }
 
         async function loadPaymentMethods() {
             try {
                 const options = await fetchDynamicOptions();
-                fillSelect(
-                    document.getElementById('payment-method'),
-                    options.paymentMethods || [],
-                    (m) => m,
-                    (m) => m.replaceAll('_', ' ').replace(/\b\w/g, (ch) => ch.toUpperCase()),
-                    'Select Payment Method'
-                );
-            } catch (error) {
-                console.error('Failed to load payment methods:', error);
-            }
+                const select = document.getElementById('payment-method');
+                if (select) {
+                    fillSelect(
+                        select,
+                        options.paymentMethods || [],
+                        (m) => m,
+                        (m) => m.replaceAll('_', ' ').replace(/\b\w/g, (ch) => ch.toUpperCase()),
+                        'Select Payment Method'
+                    );
+                }
+            } catch (error) { console.error(error); }
         }
 
-        loadPaymentMethods();
+        function cancelCheckout() {
+            window.location.href = '/purchase'; // Strip the carId
+        }
 
-        document.getElementById('purchase-form').addEventListener('submit', (e) => {
+        document.getElementById('purchase-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            confirmPurchase();
+            await confirmPurchase(); // From rent.js
         });
     </script>
 </body>

@@ -3,88 +3,389 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Find Your Car - Premium Auto</title>
-    <!-- Bootstrap 5 CSS -->
+    <title>Our Cars - Premium Auto</title>
+    <meta name="description" content="Browse our full premium car inventory. Filter by company, model, color, or branch to find your perfect vehicle.">
+    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- SweetAlert2 CSS -->
+    <!-- SweetAlert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* ── Page header ──────────────────────────────────── */
+        .page-hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 60%, #0f3460 100%);
+            padding: 4rem 0 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1920&q=40') center/cover no-repeat;
+            opacity: 0.08;
+        }
+        .page-hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -1px;
+            position: relative;
+            z-index: 1;
+            margin-bottom: .5rem;
+        }
+        .page-hero p {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,.65);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ── Sticky search bar ────────────────────────────── */
+        .search-bar-wrap {
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            background: rgba(15, 23, 42, 0.96);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            padding: .9rem 0;
+            box-shadow: 0 4px 24px rgba(0,0,0,.35);
+        }
+        .search-bar-wrap .row {
+            align-items: flex-end;
+            gap: .5rem 0;
+        }
+        .search-bar-wrap label {
+            font-size: .72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            color: rgba(255,255,255,.5);
+            margin-bottom: 4px;
+            display: block;
+        }
+        .search-bar-wrap .form-control,
+        .search-bar-wrap .form-select {
+            background: rgba(255,255,255,.07);
+            border: 1px solid rgba(255,255,255,.12);
+            color: #fff;
+            border-radius: 8px;
+            font-size: .88rem;
+            height: 40px;
+            transition: border-color .2s, box-shadow .2s;
+        }
+        .search-bar-wrap .form-control::placeholder { color: rgba(255,255,255,.35); }
+        .search-bar-wrap .form-control:focus,
+        .search-bar-wrap .form-select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,.2);
+            background: rgba(255,255,255,.1);
+            color: #fff;
+        }
+        .search-bar-wrap .form-select option { background: #1e293b; color: #fff; }
+        .search-bar-wrap .btn-search {
+            height: 40px;
+            padding: 0 1.4rem;
+            font-size: .88rem;
+            font-weight: 600;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            border: none;
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            transition: opacity .2s, transform .15s;
+            white-space: nowrap;
+        }
+        .search-bar-wrap .btn-search:hover { opacity: .9; transform: translateY(-1px); }
+        .search-bar-wrap .btn-reset {
+            height: 40px;
+            padding: 0 1rem;
+            font-size: .85rem;
+            font-weight: 600;
+            border-radius: 8px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,.18);
+            color: rgba(255,255,255,.7);
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            transition: background .2s;
+            white-space: nowrap;
+        }
+        .search-bar-wrap .btn-reset:hover { background: rgba(255,255,255,.08); color: #fff; }
+
+        /* ── Results area ─────────────────────────────────── */
+        .results-area { padding: 2.5rem 0 4rem; min-height: 60vh; }
+
+        .results-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: .5rem;
+        }
+        .results-header h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-color, #0f172a);
+            margin: 0;
+        }
+        .results-count {
+            font-size: .85rem;
+            color: #64748b;
+            background: #f1f5f9;
+            border-radius: 20px;
+            padding: 3px 12px;
+        }
+
+        /* ── Car card ─────────────────────────────────────── */
+        .car-card {
+            border: none;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,.09);
+            transition: transform .25s, box-shadow .25s;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+        }
+        .car-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 36px rgba(0,0,0,.16);
+        }
+        .car-card .car-image-wrap {
+            position: relative;
+            height: 210px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1e293b, #334155);
+            flex-shrink: 0;
+        }
+        .car-card .car-image-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .4s ease;
+        }
+        .car-card:hover .car-image-wrap img { transform: scale(1.05); }
+        .car-card .car-image-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,.4);
+            font-size: .85rem;
+            gap: .5rem;
+        }
+        .car-card .car-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(34, 197, 94, .9);
+            color: #fff;
+            font-size: .7rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            backdrop-filter: blur(4px);
+        }
+        .car-card .car-body {
+            padding: 1.25rem 1.25rem 1rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .car-card .car-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: .2rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .car-card .car-subtitle {
+            font-size: .8rem;
+            color: #94a3b8;
+            margin-bottom: .9rem;
+        }
+        .car-card .car-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .35rem;
+            margin-bottom: .9rem;
+        }
+        .car-card .meta-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: .3rem;
+            font-size: .72rem;
+            color: #475569;
+            background: #f1f5f9;
+            border-radius: 20px;
+            padding: 3px 9px;
+        }
+        .car-card .color-swatch {
+            display: inline-flex;
+            align-items: center;
+            gap: .3rem;
+            font-size: .72rem;
+            color: #475569;
+            background: #f1f5f9;
+            border-radius: 20px;
+            padding: 3px 9px;
+        }
+        .color-dot-sm {
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            border: 1px solid rgba(0,0,0,.15);
+        }
+        .car-card .car-price {
+            font-size: 1.55rem;
+            font-weight: 800;
+            color: #16a34a;
+            margin-top: auto;
+            margin-bottom: .9rem;
+        }
+        .car-card .car-price small {
+            font-size: .75rem;
+            font-weight: 400;
+            color: #94a3b8;
+        }
+        .car-card .btn-view {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: .6rem;
+            font-size: .88rem;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            transition: opacity .2s, transform .15s;
+        }
+        .car-card .btn-view:hover { opacity: .9; transform: translateY(-1px); color: #fff; }
+
+        /* ── Empty state ──────────────────────────────────── */
+        .empty-state {
+            text-align: center;
+            padding: 5rem 2rem;
+            color: #94a3b8;
+        }
+        .empty-state i { font-size: 4rem; margin-bottom: 1.5rem; opacity: .4; }
+        .empty-state h3 { font-size: 1.4rem; font-weight: 700; color: #475569; margin-bottom: .5rem; }
+
+        /* ── Skeleton loader ──────────────────────────────── */
+        .skeleton {
+            background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+            background-size: 200% 100%;
+            animation: skeleton-wave 1.4s infinite;
+            border-radius: 8px;
+        }
+        @keyframes skeleton-wave { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+        /* ── Active filter pills ──────────────────────────── */
+        .active-filters { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1rem; }
+        .filter-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: .35rem;
+            font-size: .75rem;
+            font-weight: 600;
+            background: #dbeafe;
+            color: #1d4ed8;
+            border-radius: 20px;
+            padding: 4px 12px;
+        }
+        .filter-pill button {
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: .7rem;
+            color: #1d4ed8;
+            cursor: pointer;
+            line-height: 1;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar" id="main-nav"></nav>
 
-    <div class="container">
-        <div class="card animate-fade-in-down" style="margin-bottom: 3rem;">
-            <h2 style="font-weight: 700; color: var(--primary-color);">Find Your Perfect Car</h2>
-            <p style="font-size: 1rem; color: #64748b; margin-bottom: 2rem;">
-                Browse our exclusive premium inventory across all branches.
-            </p>
-            
-            <form id="search-form" class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
-                <div class="form-group">
-                    <label>Company</label>
-                    <select id="filter-company" class="form-control">
-                        <option value="">All Companies</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Model</label>
-                    <input type="text" id="filter-model" class="form-control" placeholder="e.g. 3 Series">
-                </div>
-                <div class="form-group">
-                    <label>Branch</label>
-                    <select id="filter-branch" class="form-control">
-                        <option value="">All Locations</option>
-                    </select>
-                </div>
-                <div class="form-group" style="display: flex; align-items: flex-end;">
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">Search Inventory</button>
+    <!-- Page Hero -->
+    <div class="page-hero">
+        <h1><i class="fas fa-car me-2"></i>Our Full Inventory</h1>
+        <p>Every vehicle, every color — browse all and filter to find yours.</p>
+    </div>
+
+    <!-- Sticky Search Bar -->
+    <div class="search-bar-wrap">
+        <div class="container">
+            <form id="search-form" autocomplete="off">
+                <div class="row g-2 align-items-end">
+                    <div class="col-6 col-md-3 col-lg-2">
+                        <label for="filter-company"><i class="fas fa-building me-1"></i>Company</label>
+                        <select id="filter-company" class="form-select form-select-sm">
+                            <option value="">All Companies</option>
+                        </select>
+                    </div>
+                    <div class="col-6 col-md-3 col-lg-2">
+                        <label for="filter-model"><i class="fas fa-tag me-1"></i>Model</label>
+                        <input type="text" id="filter-model" class="form-control form-control-sm" placeholder="e.g. 3 Series">
+                    </div>
+                    <div class="col-6 col-md-3 col-lg-2">
+                        <label for="filter-color"><i class="fas fa-palette me-1"></i>Color</label>
+                        <select id="filter-color" class="form-select form-select-sm">
+                            <option value="">All Colors</option>
+                        </select>
+                    </div>
+                    <div class="col-6 col-md-3 col-lg-2">
+                        <label for="filter-branch"><i class="fas fa-location-dot me-1"></i>Branch</label>
+                        <select id="filter-branch" class="form-select form-select-sm">
+                            <option value="">All Branches</option>
+                        </select>
+                    </div>
+                    <div class="col-6 col-md-auto">
+                        <button type="submit" class="btn-search w-100">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+                    <div class="col-6 col-md-auto">
+                        <button type="button" id="reset-btn" class="btn-reset w-100">
+                            <i class="fas fa-rotate-left"></i> Reset
+                        </button>
+                    </div>
                 </div>
             </form>
-        </div>
-
-        <div id="loading" style="text-align: center; display: none;">
-            <div class="spinner-border text-primary" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-            <p style="margin-top: 1rem; color: #64748b;">Searching premium inventory...</p>
-        </div>
-
-        <div id="car-results" class="row g-4 animate-fade-in-down" style="animation-delay: 0.2s;">
-            <!-- Dynamic cars rendered by JS -->
         </div>
     </div>
 
-    <!-- Purchase Modal -->
-    <div id="purchase-modal" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(5px); z-index: 2000; align-items: center; justify-content: center; flex-direction: column; overflow-y: auto; padding: 2rem 0;">
-        <div id="purchase-summary" class="card" style="width: 90%; max-width: 500px; padding: 2rem; margin-bottom: 1rem;">
-            <!-- Dynamic summary populated by JS -->
-        </div>
-        
-        <div class="card" style="width: 90%; max-width: 500px; padding: 2rem; margin-bottom: 1rem;">
-            <h3 style="color: var(--primary-color); margin-bottom: 1.5rem;">Customer Details</h3>
-            <form id="purchase-form">
-                <div class="form-group">
-                    <label>Full Name *</label>
-                    <input type="text" id="customer-name" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label>Phone Number *</label>
-                    <input type="tel" id="customer-phone" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label>Payment Method *</label>
-                    <select id="payment-method" class="form-control" required>
-                        <option value="credit_card">Premium Credit Card</option>
-                        <option value="bank_transfer">Direct Bank Transfer</option>
-                        <option value="crypto">Cryptocurrency</option>
-                    </select>
-                </div>
-                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-                    <button type="button" onclick="closePurchaseModal()" class="btn" style="flex: 1; background: #e2e8f0; color: #475569;">Cancel</button>
-                    <button type="submit" id="confirm-purchase-btn" class="btn btn-primary" style="flex: 2;">Confirm Purchase</button>
-                </div>
-            </form>
+    <!-- Results -->
+    <div class="results-area">
+        <div class="container">
+            <div class="results-header">
+                <h2 id="results-title">All Available Cars</h2>
+                <span class="results-count" id="results-count">Loading...</span>
+            </div>
+            <!-- Active filter pills -->
+            <div class="active-filters" id="active-filters"></div>
+            <!-- Car grid -->
+            <div id="car-results" class="row g-4"></div>
         </div>
     </div>
 
@@ -96,18 +397,5 @@
     <script src="/js/auth.js"></script>
     <script src="/js/options.js"></script>
     <script src="/js/search.js"></script>
-    <script src="/js/rent.js"></script>
-    <script>
-        // Wire search form
-        document.getElementById('search-form')?.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const filters = {
-                company: document.getElementById('filter-company').value,
-                model: document.getElementById('filter-model').value,
-                branch: document.getElementById('filter-branch').value
-            };
-            searchCars(filters);
-        });
-    </script>
 </body>
 </html>

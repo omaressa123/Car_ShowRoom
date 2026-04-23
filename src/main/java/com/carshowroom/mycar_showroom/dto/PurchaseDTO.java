@@ -7,10 +7,13 @@ public class PurchaseDTO {
     @Min(value = 1, message = "Car ID must be positive")
     private Long carId;
 
+    @NotBlank(message = "Customer name required")
+    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "Customer name must not contain numbers or special characters")
     @Size(max = 100, message = "Name too long")
     private String customerName;
 
-    @Pattern(regexp = "^[+]?[0-9]{10,15}$", message = "Invalid phone number")
+    @NotBlank(message = "Phone number required")
+    @Pattern(regexp = "^[0-9]+$", message = "Phone number must contain only numbers")
     private String phone;
 
     @Email(message = "Invalid email")
@@ -18,6 +21,13 @@ public class PurchaseDTO {
 
     @NotBlank(message = "Payment method required")
     private String paymentMethod;
+    
+    @NotBlank(message = "SSN is required for contract")
+    @Size(min = 5, max = 30, message = "SSN/ID must be between 5 and 30 characters")
+    private String ssn;
+
+    @NotBlank(message = "Photo of ID is required")
+    private String idPhotoUrl;
 
     // Constructors
     public PurchaseDTO() {}
@@ -37,5 +47,11 @@ public class PurchaseDTO {
 
     public String getPaymentMethod() { return paymentMethod; }
     public void setPaymentMethod(String paymentMethod) { this.paymentMethod = paymentMethod; }
+
+    public String getSsn() { return ssn; }
+    public void setSsn(String ssn) { this.ssn = ssn; }
+
+    public String getIdPhotoUrl() { return idPhotoUrl; }
+    public void setIdPhotoUrl(String idPhotoUrl) { this.idPhotoUrl = idPhotoUrl; }
 }
 

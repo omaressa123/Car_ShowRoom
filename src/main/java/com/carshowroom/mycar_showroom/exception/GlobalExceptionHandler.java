@@ -26,12 +26,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ResponseWrapper<Void>> handleValidationException(MethodArgumentNotValidException ex) {
-        String errors = ex.getBindingResult()
-                          .getFieldErrors()
-                          .stream()
-                          .map(err -> err.getField() + ": " + err.getDefaultMessage())
-                          .collect(Collectors.joining(", "));
+        java.util.Map<String, String> errors = new java.util.HashMap<>();
+        ex.getBindingResult().getFieldErrors().forEach(error -> 
+            errors.put(error.getField(), error.getDefaultMessage())
+        );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(ResponseWrapper.error("Validation failed: " + errors));
+                .body(ResponseWrapper.validationError("Validation failed", errors));
     }
 }

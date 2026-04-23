@@ -66,6 +66,8 @@ public class ContractService {
                 dto.put("colors", c.getCar().getColors());
                 dto.put("imageUrls", c.getCar().getImageUrls());
             }
+            dto.put("ssn", c.getCustomerSsnSnapshot());
+            dto.put("idPhotoUrl", c.getIdPhotoUrlSnapshot());
             return dto;
         }).collect(Collectors.toList());
     }
@@ -91,6 +93,8 @@ public class ContractService {
                 dto.put("branchName", c.getCar().getBranch() != null ? c.getCar().getBranch().getName() : null);
                 dto.put("quantityAvailable", c.getCar().getQuantityAvailable());
             }
+            dto.put("ssn", c.getCustomerSsnSnapshot());
+            dto.put("idPhotoUrl", c.getIdPhotoUrlSnapshot());
             return dto;
         }).collect(Collectors.toList());
     }
@@ -173,6 +177,8 @@ public class ContractService {
         contract.setCustomerNameSnapshot(dto.getCustomerName() != null && !dto.getCustomerName().isBlank() ? dto.getCustomerName().trim() : customer.getFullName());
         contract.setCustomerPhoneSnapshot(dto.getPhone() != null && !dto.getPhone().isBlank() ? dto.getPhone().trim() : customer.getPhone());
         contract.setCustomerEmailSnapshot(dto.getEmail() != null && !dto.getEmail().isBlank() ? dto.getEmail().trim() : customer.getEmail());
+        contract.setCustomerSsnSnapshot(dto.getSsn());
+        contract.setIdPhotoUrlSnapshot(dto.getIdPhotoUrl());
         contractRepository.save(contract);
 
         auditService.log("CREATE_PURCHASE_REQUEST", "Purchase request created for car " + dto.getCarId() + " by user " + user.getId());

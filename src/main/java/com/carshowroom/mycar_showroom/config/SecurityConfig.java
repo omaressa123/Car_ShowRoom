@@ -42,7 +42,14 @@ config.setAllowedOriginPatterns(Arrays.asList("http://localhost:8080", "http://1
             }))
 .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/api/auth/**", "/", "/index.html", "/login**", "/register**", "/cars**", "/rent**", "/search**", "/purchase**", "/car-details**", "/dashboard**", "/css/**", "/js/**", "/assets/**", "/api/cars/**", "/api/options/**").permitAll()
+                .requestMatchers("/api/auth/**", "/", "/index.html", "/login**", "/register**",
+                        "/cars**", "/rent**", "/search**", "/purchase**", "/car-details**",
+                        "/dashboard**", "/css/**", "/js/**", "/assets/**",
+                        "/api/cars/**", "/api/options/**").permitAll()
+                // Companies & Colors: GET is public, POST/DELETE require auth
+                .requestMatchers(HttpMethod.GET, "/api/companies/**", "/api/colors/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/companies/**", "/api/colors/**").authenticated()
+                .requestMatchers(HttpMethod.DELETE, "/api/companies/**", "/api/colors/**").authenticated()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
