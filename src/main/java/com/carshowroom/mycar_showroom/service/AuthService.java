@@ -1,12 +1,14 @@
 package com.carshowroom.mycar_showroom.service;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.carshowroom.mycar_showroom.entity.Customer;
 import com.carshowroom.mycar_showroom.entity.User;
 import com.carshowroom.mycar_showroom.repository.CustomerRepository;
 import com.carshowroom.mycar_showroom.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import java.util.Optional;
 
 @Service
 public class AuthService {

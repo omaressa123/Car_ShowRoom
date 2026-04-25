@@ -1,10 +1,5 @@
 package com.carshowroom.mycar_showroom.controller;
 
-import com.carshowroom.mycar_showroom.dto.ResponseWrapper;
-import com.carshowroom.mycar_showroom.entity.User;
-import com.carshowroom.mycar_showroom.entity.Customer;
-import com.carshowroom.mycar_showroom.security.JwtUtil;
-import com.carshowroom.mycar_showroom.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,9 +7,23 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.carshowroom.mycar_showroom.dto.ResponseWrapper;
+import com.carshowroom.mycar_showroom.entity.Customer;
+import com.carshowroom.mycar_showroom.entity.User;
+import com.carshowroom.mycar_showroom.security.JwtUtil;
+import com.carshowroom.mycar_showroom.service.AuthService;
+
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @RestController
 @RequestMapping("/api/auth")

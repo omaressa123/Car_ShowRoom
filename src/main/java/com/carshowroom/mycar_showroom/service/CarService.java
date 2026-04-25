@@ -1,5 +1,15 @@
 package com.carshowroom.mycar_showroom.service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.carshowroom.mycar_showroom.dto.CarDTO;
 import com.carshowroom.mycar_showroom.entity.Branch;
 import com.carshowroom.mycar_showroom.entity.Car;
@@ -10,16 +20,8 @@ import com.carshowroom.mycar_showroom.repository.BranchRepository;
 import com.carshowroom.mycar_showroom.repository.CarRepository;
 import com.carshowroom.mycar_showroom.repository.ColorRepository;
 import com.carshowroom.mycar_showroom.repository.CompanyRepository;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import jakarta.transaction.Transactional;
 
 @Service
 public class CarService {
