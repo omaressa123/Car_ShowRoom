@@ -1,4 +1,4 @@
-# Car Showroom & Rental Management System
+# Car Showroom System
 
 A comprehensive web-based application for managing car showrooms, inventory, and rental services. Built with a Spring Boot backend and a modern HTML/CSS/JS frontend.
 
