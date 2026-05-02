@@ -1,0 +1,21 @@
+gantt
+    title Car Purchase Timing Diagram (Typical Flow)
+    dateFormat  HH:mm
+    axisFormat  %H:%M
+
+    section Car (ID: 101)
+    Available          :active, c1, 00:00, 2h
+    Reserved (Pending) :c2, after c1, 8h
+    Sold               :crit, c3, after c2, 4h
+
+    section Contract (ID: 501)
+    Customer Browsing  :b1, 00:00, 2h
+    Request Created    :milestone, 02:00, 0s
+    Pending Approval   :p1, 02:00, 8h
+    Admin Approval     :milestone, 10:00, 0s
+    Completed          :p2, 10:00, 4h
+
+    section User Session
+    Guest              :s1, 00:00, 1h
+    Login (johndoe)    :s2, 01:00, 11h
+    Logout             :s3, 12:00, 2h

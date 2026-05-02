@@ -1,4 +1,4 @@
-# Car Showroom & Rental Management System
+# Car Showroom System
 
 A comprehensive web-based application for managing car showrooms, inventory, and rental services. Built with a Spring Boot backend and a modern HTML/CSS/JS frontend.
 
@@ -39,11 +39,14 @@ A comprehensive web-based application for managing car showrooms, inventory, and
 Comprehensive visual documentation of the system's architecture and flows:
 
 - **Class Diagram:** [class_diagram.drawio](file:///d:/mycar_showroom/Car_ShowRoom/class_diagram.drawio) (Native Draw.io format) | [class_diagram.mermaid](file:///d:/mycar_showroom/Car_ShowRoom/class_diagram.mermaid) (Mermaid source)
+- **Component Diagram:** [component_diagram.drawio](file:///d:/mycar_showroom/Car_ShowRoom/component_diagram.drawio) (Native Draw.io format) | [component_diagram.mermaid](file:///d:/mycar_showroom/Car_ShowRoom/component_diagram.mermaid) (Mermaid source)
+- **Deployment Diagram:** [deployment_diagram.drawio](file:///d:/mycar_showroom/Car_ShowRoom/deployment_diagram.drawio) (Native Draw.io format) | [deployment_diagram.mermaid](file:///d:/mycar_showroom/Car_ShowRoom/deployment_diagram.mermaid) (Mermaid source)
+- **Timing Diagram:** [timing_diagram.drawio](file:///d:/mycar_showroom/Car_ShowRoom/timing_diagram.drawio) (Native Draw.io format) | [timing_diagram.mermaid](file:///d:/mycar_showroom/Car_ShowRoom/timing_diagram.mermaid) (Mermaid source)
+- **State Diagram:** [state_diagram.drawio](file:///d:/mycar_showroom/Car_ShowRoom/state_diagram.drawio) (Native Draw.io format) | [state_diagram.mermaid](file:///d:/mycar_showroom/Car_ShowRoom/state_diagram.mermaid) (Mermaid source)
+- **Object Diagram:** [object_diagram.drawio](file:///d:/mycar_showroom/Car_ShowRoom/object_diagram.drawio) (Native Draw.io format) | [object_diagram.mermaid](file:///d:/mycar_showroom/Car_ShowRoom/object_diagram.mermaid) (Mermaid source)
 - **Sequence Diagrams:** [sequence_diagrams.drawio](file:///d:/mycar_showroom/Car_ShowRoom/sequence_diagrams.drawio)
 - **Use Case Diagram:** [usecase.drawio](file:///d:/mycar_showroom/Car_ShowRoom/usecase.drawio)
 - **Activity Diagram:** [activity daigram.draw.io](file:///d:/mycar_showroom/Car_ShowRoom/activity%20daigram.draw.io)
-- **State Diagram:** [5_state_diagram.mermaid](file:///d:/mycar_showroom/Car_ShowRoom/5_state_diagram.mermaid)
-- **Object Diagram:** [6_object_diagram.mermaid](file:///d:/mycar_showroom/Car_ShowRoom/6_object_diagram.mermaid)
 
 ## 📂 Project Structure
 
@@ -60,17 +63,7 @@ Comprehensive visual documentation of the system's architecture and flows:
 2. **Backend Configuration:**
    - Update `src/main/resources/application.properties` with your database credentials.
    - Run the application using Maven: `./mvnw spring-boot:run`
-3. **Frontend Access:**
-   - Open `frontend/index.html` in your browser or serve it using a local web server.
 
 ## 📄 License
 
 This project is open-source and available for educational purposes.
-
-```css
-:root {
-    --primary-color: #667eea;
-    --secondary-color: #764ba2;
-    --accent-color: #ff6b6b;
-}
-```

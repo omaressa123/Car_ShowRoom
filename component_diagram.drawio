@@ -1,0 +1,71 @@
+<mxfile host="65bd71144e">
+    <diagram id="component_diagram" name="Component Diagram">
+        <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+
+                <!-- Client Tier -->
+                <mxCell id="client_tier" value="Client Tier" style="swimlane;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="40" width="180" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="comp_browser" value="&lt;&lt;component&gt;&gt;&#10;Web Browser&#10;(HTML/JS)" style="shape=component;align=left;spacingLeft=36;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="client_tier">
+                    <mxGeometry x="20" y="40" width="140" height="60" as="geometry"/>
+                </mxCell>
+
+                <!-- Web Tier -->
+                <mxCell id="web_tier" value="Web Tier" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="260" y="40" width="220" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="comp_controllers" value="&lt;&lt;component&gt;&gt;&#10;REST Controllers" style="shape=component;align=left;spacingLeft=36;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="web_tier">
+                    <mxGeometry x="30" y="40" width="160" height="60" as="geometry"/>
+                </mxCell>
+
+                <!-- Service Tier -->
+                <mxCell id="service_tier" value="Service Tier" style="swimlane;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="220" width="440" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="comp_services" value="&lt;&lt;component&gt;&gt;&#10;Business Services" style="shape=component;align=left;spacingLeft=36;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="service_tier">
+                    <mxGeometry x="20" y="40" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="comp_security" value="&lt;&lt;component&gt;&gt;&#10;Spring Security" style="shape=component;align=left;spacingLeft=36;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="service_tier">
+                    <mxGeometry x="240" y="40" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="comp_audit" value="&lt;&lt;component&gt;&gt;&#10;Audit Service" style="shape=component;align=left;spacingLeft=36;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="service_tier">
+                    <mxGeometry x="130" y="110" width="160" height="60" as="geometry"/>
+                </mxCell>
+
+                <!-- Data Tier -->
+                <mxCell id="data_tier" value="Data Tier" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+                    <mxGeometry x="540" y="220" width="220" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="comp_repositories" value="&lt;&lt;component&gt;&gt;&#10;JPA Repositories" style="shape=component;align=left;spacingLeft=36;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="data_tier">
+                    <mxGeometry x="30" y="40" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="comp_database" value="MySQL Database" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="data_tier">
+                    <mxGeometry x="80" y="110" width="60" height="60" as="geometry"/>
+                </mxCell>
+
+                <!-- Dependencies -->
+                <mxCell id="dep1" value="HTTPS/JSON" style="endArrow=open;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;endFill=0;" edge="1" parent="1" source="comp_browser" target="comp_controllers">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="dep2" value="" style="endArrow=open;html=1;exitX=0.5;exitY=1;entryX=0.75;entryY=0;endFill=0;" edge="1" parent="1" source="comp_controllers" target="comp_services">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="370" y="200"/>
+                            <mxPoint x="180" y="200"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="dep3" value="" style="endArrow=open;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;endFill=0;" edge="1" parent="1" source="comp_services" target="comp_repositories">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="dep4" value="JDBC" style="endArrow=open;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;endFill=0;" edge="1" parent="1" source="comp_repositories" target="comp_database">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

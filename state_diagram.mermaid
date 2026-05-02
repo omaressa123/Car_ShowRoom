@@ -1,0 +1,46 @@
+stateDiagram-v2
+    direction TB
+
+    state "Car Lifecycle" as CarLifecycle {
+        [*] --> AVAILABLE : Added to Inventory
+        AVAILABLE --> UNAVAILABLE : Out of Stock / Hidden
+        UNAVAILABLE --> AVAILABLE : Restocked / Restored
+        AVAILABLE --> SOLD : Fully Purchased
+        AVAILABLE --> MAINTENANCE : Sent to Service
+        MAINTENANCE --> AVAILABLE : Service Completed
+        SOLD --> [*]
+    }
+
+    state "Purchase/Contract Lifecycle" as ContractLifecycle {
+        [*] --> PENDING : Customer Request
+        PENDING --> COMPLETED : Admin Approval
+        PENDING --> CANCELLED : Admin Rejection / User Cancellation
+        COMPLETED --> [*]
+        CANCELLED --> [*]
+    }
+
+    state "User Session" as UserSession {
+        [*] --> GUEST
+        GUEST --> LOGGED_IN : Login
+        LOGGED_IN --> GUEST : Logout
+        
+        state LOGGED_IN {
+            [*] --> AUTHENTICATED
+            AUTHENTICATED --> ADMIN : has ROLE_ADMIN
+            AUTHENTICATED --> CUSTOMER : has ROLE_CUSTOMER
+        }
+    }
+
+    state "Payment Lifecycle" as PaymentLifecycle {
+        [*] --> UNPAID
+        UNPAID --> PROCESSING : Initiate Payment
+        PROCESSING --> SUCCESS : Payment Confirmed
+        PROCESSING --> FAILED : Payment Error
+        FAILED --> UNPAID : Retry
+        SUCCESS --> [*]
+    }
+
+    %% Transitions between lifecycles
+    ContractLifecycle --> CarLifecycle : approvePurchaseContract (decreases qty)
+    ContractLifecycle --> CarLifecycle : cancelContract (releases car)
+    UserSession --> ContractLifecycle : createPurchase

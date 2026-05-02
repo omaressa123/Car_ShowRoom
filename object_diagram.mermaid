@@ -1,0 +1,84 @@
+classDiagram
+    direction LR
+
+    %% Objects (Instances of Classes)
+    class adminUser {
+        id = 1
+        username = "admin"
+        role = "ROLE_ADMIN"
+    }
+
+    class customerUser {
+        id = 2
+        username = "johndoe"
+        role = "ROLE_CUSTOMER"
+    }
+
+    class johnCustomer {
+        id = 1
+        fullName = "John Doe"
+        email = "john@example.com"
+    }
+
+    class mainBranch {
+        id = 1
+        name = "Main Showroom"
+        city = "New York"
+    }
+
+    class toyotaCompany {
+        id = 1
+        name = "Toyota"
+    }
+
+    class teslaCompany {
+        id = 2
+        name = "Tesla"
+    }
+
+    class camryCar {
+        id = 101
+        model = "Camry"
+        year = 2024
+        price = 35000.00
+        status = SOLD
+    }
+
+    class model3Car {
+        id = 102
+        model = "Model 3"
+        year = 2023
+        price = 45000.00
+        status = AVAILABLE
+    }
+
+    class purchaseContract {
+        id = 501
+        totalPrice = 35000.00
+        status = COMPLETED
+        paymentMethod = "Credit Card"
+    }
+
+    class redColor {
+        id = 1
+        name = "Red"
+    }
+
+    class whiteColor {
+        id = 2
+        name = "White"
+    }
+
+    %% Relationships (Object Links)
+    customerUser -- johnCustomer : user_id
+    johnCustomer -- purchaseContract : customer_id
+    purchaseContract -- camryCar : car_id
+    purchaseContract -- adminUser : user_id (managed by)
+    
+    camryCar -- toyotaCompany : company_id
+    camryCar -- mainBranch : branch_id
+    camryCar -- redColor : car_color_link
+    
+    model3Car -- teslaCompany : company_id
+    model3Car -- mainBranch : branch_id
+    model3Car -- whiteColor : car_color_link

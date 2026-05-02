@@ -1,0 +1,127 @@
+<mxfile host="65bd71144e">
+    <diagram id="timing_diagram" name="Timing Diagram">
+        <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+
+                <!-- Timeline Labels -->
+                <mxCell id="label_t" value="Time (Hours)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+                    <mxGeometry x="100" y="40" width="100" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="t0" value="0" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="200" y="40" width="20" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="t2" value="2" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="300" y="40" width="20" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="t10" value="10" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="700" y="40" width="20" height="30" as="geometry"/>
+                </mxCell>
+
+                <!-- Car Status Timeline -->
+                <mxCell id="row_car" value="Car Status" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+                    <mxGeometry x="40" y="100" width="100" height="30" as="geometry"/>
+                </mxCell>
+                <!-- Available -->
+                <mxCell id="car_line1" value="" style="endArrow=none;html=1;strokeWidth=3;strokeColor=#82b366;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="200" y="115" as="sourcePoint"/>
+                        <mxPoint x="300" y="115" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <!-- Pending/Reserved -->
+                <mxCell id="car_v1" value="" style="endArrow=none;html=1;strokeWidth=1;dashed=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="300" y="115" as="sourcePoint"/>
+                        <mxPoint x="300" y="135" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="car_line2" value="" style="endArrow=none;html=1;strokeWidth=3;strokeColor=#d79b00;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="300" y="135" as="sourcePoint"/>
+                        <mxPoint x="700" y="135" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <!-- Sold -->
+                <mxCell id="car_v2" value="" style="endArrow=none;html=1;strokeWidth=1;dashed=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="700" y="135" as="sourcePoint"/>
+                        <mxPoint x="700" y="155" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="car_line3" value="" style="endArrow=none;html=1;strokeWidth=3;strokeColor=#b85450;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="700" y="155" as="sourcePoint"/>
+                        <mxPoint x="800" y="155" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="text_avail" value="AVAILABLE" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="220" y="90" width="60" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="text_pend" value="PENDING" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="480" y="140" width="60" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="text_sold" value="SOLD" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="720" y="160" width="60" height="20" as="geometry"/>
+                </mxCell>
+
+                <!-- Contract Timeline -->
+                <mxCell id="row_contract" value="Contract Status" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+                    <mxGeometry x="40" y="240" width="110" height="30" as="geometry"/>
+                </mxCell>
+                <!-- Null -->
+                <mxCell id="cont_line1" value="" style="endArrow=none;html=1;strokeWidth=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="200" y="255" as="sourcePoint"/>
+                        <mxPoint x="300" y="255" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <!-- Pending -->
+                <mxCell id="cont_v1" value="" style="endArrow=none;html=1;strokeWidth=1;dashed=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="300" y="255" as="sourcePoint"/>
+                        <mxPoint x="300" y="275" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="cont_line2" value="" style="endArrow=none;html=1;strokeWidth=3;strokeColor=#d79b00;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="300" y="275" as="sourcePoint"/>
+                        <mxPoint x="700" y="275" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <!-- Completed -->
+                <mxCell id="cont_v2" value="" style="endArrow=none;html=1;strokeWidth=1;dashed=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="700" y="275" as="sourcePoint"/>
+                        <mxPoint x="700" y="295" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="cont_line3" value="" style="endArrow=none;html=1;strokeWidth=3;strokeColor=#82b366;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="700" y="295" as="sourcePoint"/>
+                        <mxPoint x="800" y="295" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="text_comp" value="COMPLETED" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+                    <mxGeometry x="720" y="300" width="60" height="20" as="geometry"/>
+                </mxCell>
+
+                <!-- Interactions -->
+                <mxCell id="int1" value="Create Request" style="endArrow=classic;html=1;exitX=0.5;exitY=0;entryX=0.5;entryY=1;dashed=1;" edge="1" parent="1" source="cont_v1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="300" y="240" as="sourcePoint"/>
+                        <mxPoint x="300" y="135" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="int2" value="Approve" style="endArrow=classic;html=1;exitX=0.5;exitY=0;entryX=0.5;entryY=1;dashed=1;" edge="1" parent="1" source="cont_v2">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="700" y="260" as="sourcePoint"/>
+                        <mxPoint x="700" y="155" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
