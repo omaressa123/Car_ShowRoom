@@ -1,0 +1,181 @@
+classDiagram
+    direction TB
+
+    %% --- Entities ---
+    class User {
+        +Long id
+        +String username
+        +String password
+        +String role
+        +Customer customer
+    }
+
+    class Customer {
+        +Long id
+        +String fullName
+        +String email
+        +String phone
+        +User user
+        +List~Contract~ contracts
+    }
+
+    class Car {
+        +Long id
+        +String plateNumber
+        +String brand
+        +String model
+        +Integer year
+        +BigDecimal price
+        +CarStatus status
+        +Branch branch
+        +Company company
+        +List~Contract~ contracts
+        +List~String~ imageUrls
+        +List~Color~ colorEntities
+        +Integer quantityAvailable
+    }
+
+    class Branch {
+        +Long id
+        +String name
+        +String city
+        +String address
+        +List~Car~ cars
+    }
+
+    class Company {
+        +Long id
+        +String name
+    }
+
+    class Color {
+        +Long id
+        +String name
+    }
+
+    class Contract {
+        +Long id
+        +Customer customer
+        +User user
+        +Car car
+        +String paymentMethod
+        +BigDecimal totalPrice
+        +ContractStatus status
+        +String customerNameSnapshot
+        +String customerPhoneSnapshot
+        +String customerEmailSnapshot
+        +String customerSsnSnapshot
+        +String idPhotoUrlSnapshot
+    }
+
+    class Payment {
+        +Long id
+        +Contract contract
+        +Double amount
+        +String paymentMethod
+        +String status
+    }
+
+    class AuditLog {
+        +Long id
+        +String actor
+        +String action
+        +String details
+        +LocalDateTime timestamp
+    }
+
+    %% --- Enums ---
+    class CarStatus {
+        <<enumeration>>
+        AVAILABLE
+        UNAVAILABLE
+        SOLD
+        MAINTENANCE
+    }
+
+    class ContractStatus {
+        <<enumeration>>
+        PENDING
+        ACTIVE
+        COMPLETED
+        CANCELLED
+    }
+
+    %% --- Services ---
+    class AuthService {
+        +register(SignupRequest)
+        +login(LoginRequest)
+    }
+
+    class CarService {
+        +searchCars(company, model, color, branch)
+        +getAvailableCars()
+        +getCarById(id)
+        +addCar(CarDTO)
+        +updateCarPrice(id, newPrice)
+        +deleteCar(id)
+        +updateCarStatus(carId, status)
+    }
+
+    class ContractService {
+        +getMyContracts()
+        +getPendingPurchaseContracts()
+        +approvePurchaseContract(id)
+        +rejectPurchaseContract(id)
+        +createPurchase(PurchaseDTO)
+        +cancelContract(id)
+    }
+
+    class AuditService {
+        +log(action, details)
+    }
+
+    class DashboardService {
+        +getStats()
+    }
+
+    %% --- Controllers ---
+    class AuthController {
+        +signup(SignupRequest)
+        +login(LoginRequest)
+    }
+
+    class CarsController {
+        +getAllCars()
+        +getCarDetails(id)
+        +addCar(CarDTO)
+    }
+
+    class ContractsController {
+        +purchaseCar(PurchaseDTO)
+        +getMyContracts()
+    }
+
+    class AdminContractsController {
+        +getPending()
+        +approve(id)
+        +reject(id)
+    }
+
+    %% --- Relationships ---
+    User "1" -- "0..1" Customer : mappedBy
+    Customer "1" -- "*" Contract : owns
+    User "1" -- "*" Contract : managedBy
+    Car "1" -- "*" Contract : includedIn
+    Branch "1" -- "*" Car : locatedAt
+    Company "1" -- "*" Car : manufacturedBy
+    Car "*" -- "*" Color : availableIn
+    Contract "1" -- "*" Payment : has
+    
+    Car --> CarStatus : status
+    Contract --> ContractStatus : status
+
+    AuthController ..> AuthService : uses
+    CarsController ..> CarService : uses
+    ContractsController ..> ContractService : uses
+    AdminContractsController ..> ContractService : uses
+
+    CarService ..> CarRepository : uses
+    CarService ..> AuditService : uses
+    ContractService ..> ContractRepository : uses
+    ContractService ..> AuditService : uses

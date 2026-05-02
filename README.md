@@ -34,6 +34,17 @@ A comprehensive web-based application for managing car showrooms, inventory, and
 - **Database:** MySQL (Schema included in `schema_creation.sql`)
 - **Build Tool:** Maven
 
+## 📊 System Diagrams
+
+Comprehensive visual documentation of the system's architecture and flows:
+
+- **Class Diagram:** [class_diagram.drawio](file:///d:/mycar_showroom/Car_ShowRoom/class_diagram.drawio) (Native Draw.io format) | [class_diagram.mermaid](file:///d:/mycar_showroom/Car_ShowRoom/class_diagram.mermaid) (Mermaid source)
+- **Sequence Diagrams:** [sequence_diagrams.drawio](file:///d:/mycar_showroom/Car_ShowRoom/sequence_diagrams.drawio)
+- **Use Case Diagram:** [usecase.drawio](file:///d:/mycar_showroom/Car_ShowRoom/usecase.drawio)
+- **Activity Diagram:** [activity daigram.draw.io](file:///d:/mycar_showroom/Car_ShowRoom/activity%20daigram.draw.io)
+- **State Diagram:** [5_state_diagram.mermaid](file:///d:/mycar_showroom/Car_ShowRoom/5_state_diagram.mermaid)
+- **Object Diagram:** [6_object_diagram.mermaid](file:///d:/mycar_showroom/Car_ShowRoom/6_object_diagram.mermaid)
+
 ## 📂 Project Structure
 
 - `frontend/`: Contains all client-side assets (HTML, CSS, JS).
@@ -63,5 +74,3 @@ This project is open-source and available for educational purposes.
     --accent-color: #ff6b6b;
 }
 ```
-
-

@@ -1,0 +1,106 @@
+<mxfile host="65bd71144e">
+    <diagram id="class_diagram" name="Class Diagram">
+        <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                
+                <!-- User Class -->
+                <mxCell id="user_class" value="User" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=1;collapsible=1;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="40" width="160" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="user_fields" value="+id: Long&#10;+username: String&#10;+password: String&#10;+role: String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="user_class">
+                    <mxGeometry y="26" width="160" height="84" as="geometry"/>
+                </mxCell>
+
+                <!-- Customer Class -->
+                <mxCell id="customer_class" value="Customer" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=1;collapsible=1;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="240" width="160" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="customer_fields" value="+id: Long&#10;+fullName: String&#10;+email: String&#10;+phone: String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="customer_class">
+                    <mxGeometry y="26" width="160" height="84" as="geometry"/>
+                </mxCell>
+
+                <!-- Car Class -->
+                <mxCell id="car_class" value="Car" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=1;collapsible=1;marginBottom=0;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="320" y="200" width="200" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="car_fields" value="+id: Long&#10;+plateNumber: String&#10;+model: String&#10;+year: Integer&#10;+price: BigDecimal&#10;+status: CarStatus&#10;+qtyAvailable: Integer" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="car_class">
+                    <mxGeometry y="26" width="200" height="154" as="geometry"/>
+                </mxCell>
+
+                <!-- Contract Class -->
+                <mxCell id="contract_class" value="Contract" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=1;collapsible=1;marginBottom=0;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="440" width="220" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="contract_fields" value="+id: Long&#10;+paymentMethod: String&#10;+totalPrice: BigDecimal&#10;+status: ContractStatus&#10;+customerNameSnapshot: String&#10;+customerPhoneSnapshot: String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="contract_class">
+                    <mxGeometry y="26" width="220" height="134" as="geometry"/>
+                </mxCell>
+
+                <!-- Branch Class -->
+                <mxCell id="branch_class" value="Branch" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=1;collapsible=1;marginBottom=0;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="640" y="40" width="160" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="branch_fields" value="+id: Long&#10;+name: String&#10;+city: String&#10;+address: String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="branch_class">
+                    <mxGeometry y="26" width="160" height="64" as="geometry"/>
+                </mxCell>
+
+                <!-- Company Class -->
+                <mxCell id="company_class" value="Company" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=1;collapsible=1;marginBottom=0;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="640" y="180" width="160" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="company_fields" value="+id: Long&#10;+name: String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="company_class">
+                    <mxGeometry y="26" width="160" height="44" as="geometry"/>
+                </mxCell>
+
+                <!-- Color Class -->
+                <mxCell id="color_class" value="Color" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=1;collapsible=1;marginBottom=0;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="640" y="320" width="160" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="color_fields" value="+id: Long&#10;+name: String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="color_class">
+                    <mxGeometry y="26" width="160" height="44" as="geometry"/>
+                </mxCell>
+
+                <!-- AuditLog Class -->
+                <mxCell id="audit_class" value="AuditLog" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=1;collapsible=1;marginBottom=0;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+                    <mxGeometry x="400" y="500" width="180" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="audit_fields" value="+id: Long&#10;+actor: String&#10;+action: String&#10;+details: String&#10;+timestamp: LocalDateTime" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="audit_class">
+                    <mxGeometry y="26" width="180" height="84" as="geometry"/>
+                </mxCell>
+
+                <!-- Relationships -->
+                <!-- User to Customer -->
+                <mxCell id="rel_user_customer" value="1" style="endArrow=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="user_class" target="customer_class">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                
+                <!-- Customer to Contract -->
+                <mxCell id="rel_customer_contract" value="1..*" style="endArrow=open;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="customer_class" target="contract_class">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- Car to Contract -->
+                <mxCell id="rel_car_contract" value="*" style="endArrow=open;html=1;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="car_class" target="contract_class">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- Branch to Car -->
+                <mxCell id="rel_branch_car" value="*" style="endArrow=open;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="branch_class" target="car_class">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- Company to Car -->
+                <mxCell id="rel_company_car" value="*" style="endArrow=open;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" source="company_class" target="car_class">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- Car to Color -->
+                <mxCell id="rel_car_color" value="*" style="endArrow=none;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="car_class" target="color_class">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
