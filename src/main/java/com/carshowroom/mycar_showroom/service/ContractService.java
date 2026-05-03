@@ -1,24 +1,26 @@
 package com.carshowroom.mycar_showroom.service;
 
-import com.carshowroom.mycar_showroom.entity.Contract;
-import com.carshowroom.mycar_showroom.entity.Car;
-import com.carshowroom.mycar_showroom.entity.Customer;
-import com.carshowroom.mycar_showroom.entity.CarStatus;
-import com.carshowroom.mycar_showroom.entity.ContractStatus;
-import com.carshowroom.mycar_showroom.repository.ContractRepository;
-import com.carshowroom.mycar_showroom.repository.CarRepository;
-import com.carshowroom.mycar_showroom.dto.PurchaseDTO;
-import com.carshowroom.mycar_showroom.entity.User;
-import com.carshowroom.mycar_showroom.repository.UserRepository;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.Optional;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.carshowroom.mycar_showroom.dto.PurchaseDTO;
+import com.carshowroom.mycar_showroom.entity.Car;
+import com.carshowroom.mycar_showroom.entity.CarStatus;
+import com.carshowroom.mycar_showroom.entity.Contract;
+import com.carshowroom.mycar_showroom.entity.ContractStatus;
+import com.carshowroom.mycar_showroom.entity.Customer;
+import com.carshowroom.mycar_showroom.entity.User;
+import com.carshowroom.mycar_showroom.repository.CarRepository;
+import com.carshowroom.mycar_showroom.repository.ContractRepository;
+import com.carshowroom.mycar_showroom.repository.UserRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class ContractService {
@@ -37,10 +39,8 @@ public class ContractService {
 
     @Transactional
     public List<Map<String, Object>> getMyContracts() {
-        String username = SecurityContextHolder.getContext().getAuthentication() != null
-                ? SecurityContextHolder.getContext().getAuthentication().getName()
-                : null;
-        if (username == null || "anonymousUser".equalsIgnoreCase(username)) {
+        String username = SecurityContextHolder.getInstance().getCurrentUsername();
+        if (username == null) {
             throw new IllegalArgumentException("Not authenticated");
         }
 
@@ -143,12 +143,10 @@ public class ContractService {
         auditService.log("REJECT_PURCHASE", "Contract " + contractId + " rejected");
     }
 
-@Transactional
+    @Transactional
     public void createPurchase(PurchaseDTO dto) {
-        String username = SecurityContextHolder.getContext().getAuthentication() != null
-                ? SecurityContextHolder.getContext().getAuthentication().getName()
-                : null;
-        if (username == null || "anonymousUser".equalsIgnoreCase(username)) {
+        String username = SecurityContextHolder.getInstance().getCurrentUsername();
+        if (username == null) {
             throw new IllegalArgumentException("You must be logged in to purchase a car");
         }
 

@@ -1,8 +1,6 @@
 package com.carshowroom.mycar_showroom.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.carshowroom.mycar_showroom.entity.AuditLog;
@@ -20,11 +18,7 @@ public class AuditService {
     }
 
     private String getCurrentUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null && auth.isAuthenticated()) {
-            return auth.getName();
-        }
-        return "system";
+        String username = SecurityContextHolder.getInstance().getCurrentUsername();
+        return username != null ? username : "system";
     }
 }
-
