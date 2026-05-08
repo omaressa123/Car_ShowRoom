@@ -33,7 +33,7 @@ function updateNavbar() {
     }
 
     navbar.innerHTML = `
-        <a href="/" class="logo">DevOps</a>
+        <a href="/" class="logo">Car Showroom</a>
         <ul class="nav-links">
             ${navLinks}
         </ul>
