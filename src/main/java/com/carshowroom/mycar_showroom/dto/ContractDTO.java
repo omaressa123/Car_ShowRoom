@@ -1,7 +1,10 @@
 package com.carshowroom.mycar_showroom.dto;
 
-import jakarta.validation.constraints.*;
 import java.time.LocalDateTime;
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class ContractDTO {
     @NotNull(message = "Customer ID required")
@@ -40,8 +43,7 @@ public class ContractDTO {
     public LocalDateTime getEndTime() { return endTime; }
     public void setEndTime(LocalDateTime endTime) { this.endTime = endTime; }
 
-    public Integer getRentalDays() { return rentalDays; }
-    public void setRentalDays(Integer rentalDays) { this.rentalDays = rentalDays; }
+    
 
     public String getPaymentMethod() { return paymentMethod; }
     public void setPaymentMethod(String paymentMethod) { this.paymentMethod = paymentMethod; }
